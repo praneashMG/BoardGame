@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+        <link rel="icon" type="image/png" href="assets/fav.png">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>404 – Service Detour | GameNest Car Repair</title>
+    <!-- Tailwind + FontAwesome + Tone.js for premium sounds -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <style>
+        /* ===== THEME VARIABLES (car service vibe) ===== */
+        :root, html[data-theme='light'] {
+            --bg-body: #F4F7FC;
+            --text-primary: #0B1E2E;
+            --text-secondary: #1E3A5F;
+            --accent: #DC2626;
+            --accent-dark: #B91C1C;
+            --primary: #1E4A6B;
+            --card-bg: #FFFFFF;
+            --border-light: #E2E8F0;
+            --hover-bg: #FFFBEB;
+            --rating-star: #F59E0B;
+            --gauge-track: #CBD5E1;
+        }
+        html[data-theme='dark'] {
+            --bg-body: #0B1120;
+            --text-primary: #F1F5F9;
+            --text-secondary: #94A3B8;
+            --accent: #EF4444;
+            --accent-dark: #DC2626;
+            --primary: #3B82F6;
+            --card-bg: #1E293B;
+            --border-light: #334155;
+            --hover-bg: #2D3A4F;
+            --rating-star: #FBBF24;
+            --gauge-track: #475569;
+        }
+        body {
+            background: var(--bg-body);
+            color: var(--text-primary);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            transition: background 0.25s, color 0.2s;
+            overflow-x: hidden;
+        }
+        .text-accent { color: var(--accent); }
+        .bg-accent { background-color: var(--accent); }
+        .border-accent { border-color: var(--accent); }
+        .hover\:bg-accent\/10:hover { background-color: color-mix(in srgb, var(--accent) 10%, transparent); }
+        .bg-card { background-color: var(--card-bg); }
+        .text-secondary { color: var(--text-secondary); }
+        .border-border { border-color: var(--border-light); }
+
+        .reveal { opacity: 0; transform: translateY(20px); transition: 0.7s ease; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .tire-container { perspective: 1000px; }
+        .flat-tire-svg { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); filter: drop-shadow(0 12px 18px rgba(0,0,0,0.12)); }
+
+        @keyframes pulse-pump { 0% { transform: scale(1); } 50% { transform: scale(0.94); } 100% { transform: scale(1); } }
+        .pump-active { animation: pulse-pump 0.15s ease-in-out; }
+
+        @keyframes rolling-tire { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .rolling { animation: rolling-tire 4s linear infinite; }
+
+        html[dir="rtl"] .hover\:translate-x-1:hover { transform: translateX(-0.25rem) !important; }
+
+        .btn-primary {
+            box-shadow: 0 4px 12px 0 rgba(217, 119, 6, 0.4);
+            color: #ffffff !important;
+            background: var(--accent);
+        }
+        .btn-primary:hover { background: var(--accent-dark) !important; transform: translateY(-1px) scale(1.02); box-shadow: 0 6px 18px 0 rgba(220, 38, 38, 0.5); }
+        html[data-theme='dark'] .btn-primary { color: #0f172a !important; font-weight: 600 !important; }
+        html[data-theme='dark'] .btn-primary:hover { box-shadow: 0 6px 18px 0 rgba(239, 68, 68, 0.4); }
+
+        .btn-outline { color: var(--accent) !important; border: 2px solid var(--accent) !important; background: transparent; }
+        .btn-outline:hover { background: var(--accent) !important; color: #ffffff !important; transform: translateY(-1px); }
+        html[data-theme='dark'] .btn-outline:hover { color: #0f172a !important; }
+
+        .tire-card, .dashboard-card { display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
+        .tire-card > div:last-child, .dashboard-card > div:last-child { margin-top: auto; }
+
+        img:not([src*="fav.png"]) { object-fit: cover !important; }
+
+        .bg-overlay { position: relative; }
+        .bg-overlay::before { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.9) 100%); border-radius: inherit; pointer-events: none; z-index: 1; }
+        .bg-overlay > *:not(img) { position: relative; z-index: 2; }
+
+        body { overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; }
+        h1, h2, h3 { font-weight: 500 !important; }
+        p:not(.font-medium), div.text-secondary { font-weight: 400 !important; }
+        .container p, section > div > p.text-secondary { max-width: 65ch; margin-left: auto; margin-right: auto; }
+        .tire-card p, .bg-card p { margin-left: 0 !important; margin-right: 0 !important; max-width: none !important; }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col justify-between">
+
+    <!-- ===== FLOATING TOOLBAR ===== -->
+    <div class="w-full max-w-7xl mx-auto px-6 py-4 flex justify-between items-center z-50">
+        <a href="index.html" class="text-2xl font-bold tracking-tight text-accent" style="font-weight: 700 !important;"><i class="fas fa-wrench mr-2"></i>GameNest</a>
+        <div class="flex items-center gap-2 bg-card border border-border p-1.5 rounded-full shadow-sm">
+            <a href="index.html" class="p-2.5 rounded-full hover:bg-accent/10 transition-colors text-sm font-medium flex items-center gap-1.5 px-4" title="Home">
+                <i class="fas fa-home"></i> <span class="hidden sm:inline text-xs">Home</span>
+            </a>
+            <div class="h-4 w-px bg-border-light my-auto"></div>
+            <button id="theme-toggle" class="p-2 rounded-full hover:bg-accent/10 transition-colors" title="Toggle Theme">
+                <i class="fas fa-moon light-icon"></i><i class="fas fa-sun dark-icon hidden"></i>
+            </button>
+            <button id="lang-icon" class="p-2 rounded-full hover:bg-accent/10 transition-colors" title="Toggle RTL">
+                <i class="fas fa-globe"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- ===== MAIN 404 ===== -->
+    <main class="flex-grow flex items-center justify-center py-6">
+        <div class="max-w-7xl mx-auto px-5 w-full grid md:grid-cols-12 gap-8 lg:gap-12 items-center">
+            
+            <!-- LEFT: Text & CTA -->
+            <div class="md:col-span-7 space-y-6 reveal active">
+                <div class="inline-flex items-center gap-2 bg-accent/10 text-accent px-4 py-1.5 rounded-full text-xs font-medium">
+                    <span class="animate-pulse">🔧</span> SERVICE DETOUR
+                </div>
+                <h1 class="text-4xl md:text-5xl font-medium leading-tight tracking-tight">
+                    Repair Bay <br><span class="text-accent">404</span>
+                </h1>
+                <p class="text-secondary text-lg max-w-xl">
+                    Looks like you took a wrong turn in the garage. The page you're looking for isn't here, but our expert mechanics are ready to get you back on the road.
+                </p>
+                <div class="max-w-md bg-card border border-border p-1.5 rounded-2xl flex items-center shadow-sm">
+                    <i class="fas fa-search text-secondary pl-3 pr-2"></i>
+                    <input type="text" id="site-search" placeholder="Search repairs, oil change, brakes..." 
+                        class="bg-transparent text-sm w-full outline-none py-2 text-primary"
+                        onkeydown="if(event.key === 'Enter') handleSearch();">
+                    <button onclick="handleSearch();" class="bg-accent hover:bg-accent-dark transition px-4 py-2 rounded-xl text-white text-xs font-medium whitespace-nowrap">
+                        Find Service
+                    </button>
+                </div>
+                <div class="flex flex-wrap gap-4 pt-2">
+                    <a href="index.html" class="btn-primary px-8 py-3 text-sm shadow-lg flex items-center gap-2 rounded-full">
+                        <i class="fas fa-home"></i> Back to Garage
+                    </a>
+                    <a href="service.html" class="btn-outline px-7 py-3 text-sm flex items-center gap-2 rounded-full">
+                        <i class="fas fa-tools"></i> Our Services
+                    </a>
+                </div>
+                <div class="pt-6 border-t border-border grid grid-cols-3 gap-4 text-xs">
+                    <div>
+                        <span class="block text-secondary">Need Help?</span>
+                        <a href="tel:8005557655" class="font-medium text-accent hover:underline">(800) 555-GAME</a>
+                    </div>
+                    <div>
+                        <span class="block text-secondary">Emergency Tow</span>
+                        <span class="font-medium">24/7 Dispatch</span>
+                    </div>
+                    <div>
+                        <span class="block text-secondary">Live Tracking</span>
+                        <a href="index.html#tracking" class="font-medium text-accent hover:underline">Track Van</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT: Interactive Tire Pump / Gauge -->
+            <div class="md:col-span-5 flex flex-col items-center bg-card border border-border rounded-3xl p-6 md:p-8 shadow-xl relative overflow-hidden reveal active">
+                <div class="absolute -top-10 -right-10 w-32 h-32 bg-accent/5 rounded-full blur-2xl"></div>
+                <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-accent/5 rounded-full blur-2xl"></div>
+
+                <div class="w-full text-center mb-4">
+                    <h3 class="font-medium text-lg">Tire Pressure Check</h3>
+                    <p class="text-xs text-secondary mt-1">Pump to 32 PSI – ready to roll!</p>
+                </div>
+
+                <div class="relative w-full aspect-square max-w-[280px] tire-container flex items-center justify-center">
+                    <svg class="absolute inset-0 w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                        <circle cx="50" cy="50" r="44" stroke="var(--gauge-track)" stroke-width="4" fill="transparent" />
+                        <circle id="gauge-fill" cx="50" cy="50" r="44" stroke="var(--accent)" stroke-width="5" fill="transparent" 
+                            stroke-dasharray="276" stroke-dashoffset="276" class="transition-all duration-300" />
+                    </svg>
+                    <div id="tire-illustration" class="w-48 h-48 flat-tire-svg flex items-center justify-center transform scale-y-[0.7]">
+                        <svg viewBox="0 0 200 200" class="w-full h-full text-slate-800 dark:text-slate-100" fill="currentColor">
+                            <circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" stroke-width="20" />
+                            <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" stroke-width="4" stroke-dasharray="10, 15" />
+                            <circle cx="100" cy="100" r="48" fill="#4A5568" stroke="#1A202C" stroke-width="3" />
+                            <circle cx="100" cy="100" r="30" fill="#718096" />
+                            <path d="M 100 52 L 100 148 M 52 100 L 148 100 M 66 66 L 134 134 M 66 134 L 134 66" stroke="#1A202C" stroke-width="5" />
+                            <circle cx="100" cy="100" r="16" fill="#1A202C" />
+                            <circle cx="100" cy="100" r="6" fill="#A0AEC0" />
+                        </svg>
+                    </div>
+                    <div class="absolute flex flex-col items-center justify-center">
+                        <span id="psi-number" class="text-3xl font-medium font-mono tracking-tight text-primary transition-all duration-200">10</span>
+                        <span class="text-[9px] uppercase font-medium text-secondary tracking-widest">PSI</span>
+                    </div>
+                </div>
+
+                <div id="game-status-banner" class="w-full py-2 px-3 mt-4 text-center rounded-xl text-xs font-medium bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200/40 transition-colors duration-300">
+                    ⚠️ LOW PRESSURE – Do not drive.
+                </div>
+
+                <div class="w-full grid grid-cols-2 gap-3 mt-6">
+                    <button id="pump-air-btn" class="w-full bg-accent hover:bg-accent-dark text-white rounded-2xl py-3 px-4 font-medium text-sm shadow flex items-center justify-center gap-2 active:scale-95 transition-transform" onclick="pumpTire()">
+                        <i class="fas fa-compress-alt"></i> Pump
+                    </button>
+                    <button id="reset-tire-btn" class="w-full bg-slate-200 dark:bg-slate-700 hover:opacity-90 text-primary dark:text-slate-100 rounded-2xl py-3 px-4 font-medium text-sm transition" onclick="resetTire()">
+                        <i class="fas fa-history mr-1"></i> Reset
+                    </button>
+                </div>
+
+                <div id="custom-toast" class="hidden absolute top-4 left-4 right-4 bg-green-600 text-white text-xs font-medium py-3 px-4 rounded-xl shadow-lg flex items-center justify-between z-50 transition-opacity duration-300">
+                    <span id="toast-message">Tire pressurized!</span>
+                    <button onclick="document.getElementById('custom-toast').classList.add('hidden')"><i class="fas fa-times"></i></button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <div class="w-full max-w-7xl mx-auto px-6 py-6 text-center text-xs text-slate-400 border-t border-border mt-auto">
+        <p>© 2026 GameNest – Car Service & Repair. Drive with confidence.</p>
+    </div>
+
+    <!-- FLOATING CALL BUTTON -->
+    <a href="tel:8005557655" class="fixed bottom-6 right-6 bg-accent text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl z-[90] hover:bg-accent-dark transition-transform hover:scale-110 flex md:hidden" style="box-shadow: 0 4px 14px rgba(217, 119, 6, 0.5);">
+        <i class="fas fa-phone text-2xl"></i>
+    </a>
+
+    <!-- ===== SCRIPTS ===== -->
+    <script>
+        (function () {
+            const html = document.documentElement;
+            const themeBtn = document.getElementById('theme-toggle');
+            const applyTheme = (theme) => { 
+                html.setAttribute('data-theme', theme); 
+                localStorage.setItem('theme', theme); 
+                document.querySelectorAll('.light-icon').forEach(icon => icon.classList.toggle('hidden', theme === 'dark')); 
+                document.querySelectorAll('.dark-icon').forEach(icon => icon.classList.toggle('hidden', theme === 'light')); 
+            };
+            const initTheme = () => { 
+                const stored = localStorage.getItem('theme'); 
+                const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches; 
+                applyTheme(stored === 'dark' || (!stored && prefers) ? 'dark' : 'light'); 
+            };
+            themeBtn?.addEventListener('click', () => { 
+                const cur = html.getAttribute('data-theme'); 
+                applyTheme(cur === 'light' ? 'dark' : 'light'); 
+            });
+            initTheme();
+
+            const langBtn = document.getElementById('lang-icon');
+            const toggleRtl = () => { 
+                const isRtl = html.getAttribute('dir') === 'rtl'; 
+                html.setAttribute('dir', isRtl ? 'ltr' : 'rtl'); 
+                localStorage.setItem('dir', isRtl ? 'ltr' : 'rtl'); 
+            };
+            if (langBtn) langBtn.addEventListener('click', toggleRtl);
+            const savedDir = localStorage.getItem('dir') === 'rtl' ? 'rtl' : 'ltr'; 
+            html.setAttribute('dir', savedDir);
+
+            const reveals = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => { 
+                entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); }); 
+            }, { threshold: 0.15 });
+            reveals.forEach(r => observer.observe(r));
+        })();
+
+        // ===== GAME MECHANICS =====
+        let currentPSI = 10;
+        const targetPSI = 32;
+        let isSuccess = false;
+        let noiseSynth;
+
+        function playPumpSound() {
+            try {
+                if (!noiseSynth) {
+                    noiseSynth = new Tone.NoiseSynth({
+                        noise: { type: 'white' },
+                        envelope: { attack: 0.01, decay: 0.2, sustain: 0 }
+                    }).toDestination();
+                }
+                if (Tone.context.state !== 'running') Tone.start();
+                noiseSynth.triggerAttackRelease("16n");
+            } catch (e) { /* autoplay blocked */ }
+        }
+
+        function handleSearch() {
+            const query = document.getElementById('site-search').value.trim();
+            if (query) {
+                showToast(`Searching for "${query}"... Redirecting.`);
+                setTimeout(() => window.location.href = `service.html?search=${encodeURIComponent(query)}`, 1200);
+            }
+        }
+
+        function showToast(msg, isError = false) {
+            const toast = document.getElementById('custom-toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.innerText = msg;
+            toast.className = `absolute top-4 left-4 right-4 text-white text-xs font-medium py-3 px-4 rounded-xl shadow-lg flex items-center justify-between z-50 transition-all duration-300 ${isError ? 'bg-red-500' : 'bg-green-600'}`;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 3000);
+        }
+
+        function pumpTire() {
+            if (isSuccess) return;
+            playPumpSound();
+            const tire = document.getElementById('tire-illustration');
+            tire.classList.add('pump-active');
+            setTimeout(() => tire.classList.remove('pump-active'), 150);
+            currentPSI = Math.min(currentPSI + 2, targetPSI);
+            updateTireUI();
+            if (currentPSI === targetPSI) triggerSuccess();
+        }
+
+        function resetTire() {
+            currentPSI = 10; isSuccess = false;
+            document.getElementById('tire-illustration').classList.remove('rolling');
+            const btn = document.getElementById('pump-air-btn');
+            btn.innerHTML = `<i class="fas fa-compress-alt"></i> Pump`;
+            btn.className = "w-full bg-accent hover:bg-accent-dark text-white rounded-2xl py-3 px-4 font-medium text-sm shadow flex items-center justify-center gap-2 active:scale-95 transition-transform";
+            btn.onclick = function() { pumpTire(); };
+            updateTireUI();
+            showToast("Reset to 10 PSI.");
+        }
+
+        function updateTireUI() {
+            document.getElementById('psi-number').innerText = currentPSI;
+            const pct = (currentPSI - 10) / (targetPSI - 10);
+            const scale = 0.7 + pct * 0.3;
+            document.getElementById('tire-illustration').style.transform = `scaleY(${Math.min(1, Math.max(0.7, scale))})`;
+            document.getElementById('gauge-fill').style.strokeDashoffset = 276 - (pct * 276);
+            const banner = document.getElementById('game-status-banner');
+            if (currentPSI < 20) {
+                banner.innerText = "⚠️ LOW PRESSURE – Do not drive.";
+                banner.className = "w-full py-2 px-3 mt-4 text-center rounded-xl text-xs font-medium bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200/40 transition-colors duration-300";
+            } else if (currentPSI < 30) {
+                banner.innerText = "⚡ Warning: Low. Keep pumping to 32 PSI.";
+                banner.className = "w-full py-2 px-3 mt-4 text-center rounded-xl text-xs font-medium bg-amber-100 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 border border-amber-200/40 transition-colors duration-300";
+            } else if (currentPSI < 32) {
+                banner.innerText = "Almost there – target 32 PSI.";
+                banner.className = "w-full py-2 px-3 mt-4 text-center rounded-xl text-xs font-medium bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 border border-blue-200/40 transition-colors duration-300";
+            } else {
+                banner.innerText = "✅ OPTIMUM PRESSURE – Ready to drive!";
+                banner.className = "w-full py-2 px-3 mt-4 text-center rounded-xl text-xs font-medium bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 border border-green-200/40 transition-colors duration-300";
+            }
+        }
+
+        function triggerSuccess() {
+            isSuccess = true;
+            showToast("Success! Tire at 32 PSI. Let's drive!");
+            document.getElementById('tire-illustration').classList.add('rolling');
+            const btn = document.getElementById('pump-air-btn');
+            btn.innerHTML = `<i class="fas fa-play-circle animate-pulse"></i> Back to Garage`;
+            btn.className = "w-full bg-green-600 hover:bg-green-700 text-white rounded-2xl py-3 px-4 font-medium text-sm shadow flex items-center justify-center gap-2 active:scale-95 transition-transform";
+            btn.onclick = function() { window.location.href = "index.html"; };
+        }
+
+        // Init UI
+        updateTireUI();
+    </script>
+</body>
+</html>

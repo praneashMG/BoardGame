@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" data-theme="light">
+
+<head>
+    <link rel="icon" type="image/png" href="assets/fav.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>GameNest | Mobile Tire & Flat Repair</title>
+    <!-- Tailwind + FontAwesome -->
+    <script src="tailwind.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        /* ========== THEME VARIABLES (performance/vintage-modern) ========== */
+        :root,
+        html[data-theme='light'] {
+            --bg-body: #F7F9FC;
+            --text-primary: #0A1C2F;
+            --text-secondary: #2C3E50;
+            --accent: #DC2626;
+            --accent-dark: #B91C1C;
+            --primary: #1E4A6B;
+            --card-bg: #FFFFFF;
+            --border-light: #E2E8F0;
+            --hover-bg: #FEF2F2;
+            --footer-bg: #0F172A;
+            --footer-text: #E2E8F0;
+            --rating-star: #F59E0B;
+        }
+
+        html[data-theme='dark'] {
+            --bg-body: #0B1120;
+            --text-primary: #F1F5F9;
+            --text-secondary: #CBD5E1;
+            --accent: #EF4444;
+            --accent-dark: #DC2626;
+            --primary: #2563EB;
+            --card-bg: #1E293B;
+            --border-light: #334155;
+            --hover-bg: #2D3A4F;
+            --footer-bg: #020617;
+            --footer-text: #CBD5E1;
+            --rating-star: #FBBF24;
+        }
+
+        body {
+            background: var(--bg-body);
+            color: var(--text-primary);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            transition: background-color 0.25s ease, color 0.2s;
+            overflow-x: hidden;
+        }
+
+        .text-accent {
+            color: var(--accent);
+        }
+
+        .bg-accent {
+            background-color: var(--accent);
+        }
+
+        .border-accent {
+            border-color: var(--accent);
+        }
+
+        .hover\:bg-accent\/10:hover {
+            background-color: color-mix(in srgb, var(--accent) 10%, transparent);
+        }
+
+        .bg-card {
+            background-color: var(--card-bg);
+        }
+
+        .text-secondary {
+            color: var(--text-secondary);
+        }
+
+        .border-border {
+            border-color: var(--border-light);
+        }
+
+        /* Navbar + glassmorphic */
+        #main-header nav {
+            background: var(--card-bg);
+            backdrop-filter: blur(0px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        html[data-theme='dark'] #main-header nav {
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(4px);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: 0.2s;
+            font-weight: 500;
+        }
+
+        .nav-link.active {
+            color: var(--accent);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: 0.2s;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Dropdown style */
+        .dropdown-wrapper {
+            position: relative;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 110%;
+            left: 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 0.75rem;
+            min-width: 190px;
+            padding: 0.4rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .dropdown-wrapper.open .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .dropdown-menu a {
+            display: flex;
+            align-items: center;
+            padding: 0.6rem 1rem;
+            color: var(--text-primary);
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .dropdown-menu a:hover {
+            background: var(--hover-bg);
+            color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        /* Tire comparison cards */
+        .tire-card {
+            transition: all 0.2s;
+            background: var(--card-bg);
+            border-radius: 1.5rem;
+            border: 1px solid var(--border-light);
+            overflow: hidden;
+        }
+
+        .tire-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            border-radius: 9999px;
+            transition: 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-dark);
+            transform: scale(1.02);
+        }
+
+        .btn-outline {
+            border: 1.5px solid var(--accent);
+            color: var(--accent);
+            border-radius: 9999px;
+            background: transparent;
+            transition: 0.2s;
+        }
+
+        .btn-outline:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .rating-star {
+            color: var(--rating-star);
+        }
+
+        .status-badge {
+            background: #10b98120;
+            color: #10b981;
+            border-radius: 999px;
+            padding: 0.2rem 0.7rem;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .vehicle-track {
+            background: var(--card-bg);
+            border-left: 4px solid var(--accent);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.7s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        button:focus,
+        .dropdown-toggle:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .dropdown-toggle {
+            -webkit-appearance: none;
+            appearance: none;
+            border: none;
+            background: transparent;
+        }
+
+        @media (max-width: 1279px) {
+            .dropdown-menu {
+                position: static;
+                display: none;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                margin-top: 0.5rem;
+            }
+
+            .dropdown-wrapper.open .dropdown-menu {
+                display: block;
+            }
+        }
+
+        /* Mobile Drawer Link Hover & Active Underlines */
+        #mobile-drawer nav a:not(.rounded-full) {
+            position: relative;
+            transition: color 0.2s ease;
+            width: fit-content;
+        }
+
+        #mobile-drawer nav a.active:not(.rounded-full) {
+            color: var(--accent) !important;
+        }
+
+        #mobile-drawer nav a:not(.rounded-full)::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.2s ease;
+        }
+
+        #mobile-drawer nav a:not(.rounded-full):hover::after {
+            width: 100%;
+        }
+
+        /* RTL support for navigation spacing, underlines and menus */
+        html[dir="rtl"] #main-header .space-x-8 > :not([hidden]) ~ :not([hidden]) {
+            margin-right: 2rem !important;
+            margin-left: 0 !important;
+        }
+        html[dir="rtl"] .dropdown-menu {
+            left: auto;
+            right: 0;
+        }
+        html[dir="rtl"] .dropdown-menu a:hover {
+            transform: translateX(-4px);
+        }
+        html[dir="rtl"] .hover\:translate-x-1:hover {
+            transform: translateX(-0.25rem) !important;
+        }
+        html[dir="rtl"] .nav-link::after {
+            left: auto;
+            right: 0;
+        }
+        html[dir="rtl"] #mobile-drawer nav a:not(.rounded-full)::after {
+            left: auto;
+            right: 0;
+        }
+    </style>
+    <style id="typography-alignment">
+        /* Typography Alignment & Consistency Overrides */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 500 !important;
+        }
+        /* Keep paragraph weights 400-500 */
+        p:not(.font-medium), div.text-secondary {
+            font-weight: 400 !important;
+        }
+        /* Ensure proper text alignment inside cards */
+        .tire-card, .bg-card, .card {
+            text-align: left !important;
+        }
+        .text-center .tire-card, .text-center .bg-card {
+            text-align: left !important;
+        }
+        /* Reduce overly wide paragraphs inside containers for readability */
+        .container p, section > div > p.text-secondary {
+            max-width: 65ch;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .tire-card p, .bg-card p, .card p, .text-left p {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            max-width: none !important;
+        }
+    </style>
+    <style id="cta-improvements">
+        /* Primary CTA Highlights */
+        .btn-primary {
+            box-shadow: 0 4px 12px 0 rgba(220, 38, 38, 0.4);
+            color: #ffffff !important;
+        }
+        html[data-theme='dark'] .btn-primary {
+            box-shadow: 0 4px 12px 0 rgba(239, 68, 68, 0.3);
+            color: #0f172a !important; /* High contrast in dark mode */
+            font-weight: 600 !important;
+        }
+        
+        /* Hover Color Consistency & Contrast */
+        .btn-primary:hover {
+            background-color: var(--accent-dark) !important;
+            transform: translateY(-1px) scale(1.02);
+            box-shadow: 0 6px 16px 0 rgba(220, 38, 38, 0.5);
+        }
+        html[data-theme='dark'] .btn-primary:hover {
+            box-shadow: 0 6px 16px 0 rgba(239, 68, 68, 0.4);
+        }
+        
+        .btn-outline {
+            color: var(--accent) !important;
+            border-color: var(--accent) !important;
+        }
+        .btn-outline:hover {
+            background-color: var(--accent) !important;
+            color: #ffffff !important;
+            transform: translateY(-1px);
+        }
+        html[data-theme='dark'] .btn-outline:hover {
+            color: #0f172a !important; /* High contrast in dark mode */
+        }
+
+        /* Align CTA buttons consistently inside cards/grids */
+        .tire-card, .dashboard-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+            gap: 1.25rem;
+        }
+        .tire-card > div:last-child, .dashboard-card > div:last-child, .dashboard-card > button:last-child {
+            margin-top: auto;
+        }
+    </style>
+    <style id="image-improvements">
+        /* Prevent image distortion globally */
+        img:not([src*="fav.png"]):not(.object-contain) {
+            object-fit: cover !important;
+        }
+        
+        /* Ensure proper background overlays for readability (apply to containers if needed) */
+        .bg-overlay {
+            position: relative;
+        }
+        .bg-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 50%, rgba(0,0,0,0.95) 100%);
+            border-radius: inherit;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .bg-overlay > *:not(img) {
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+    <style id="responsive-fixes">
+        /* Guarantee text wrapping on small screens */
+        body {
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            -ms-word-break: break-all;
+            word-break: break-word;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <!-- Fixed Header -->
+    <header class="fixed top-0 left-0 w-full z-50 pt-3" id="main-header">
+        <nav
+            class="max-w-7xl mx-auto px-5 py-3 rounded-2xl flex items-center justify-between backdrop-blur-sm border border-border">
+            <a href="index.html" class="text-2xl font-bold tracking-tight text-accent" style="font-weight: 700 !important;"><i class="fas fa-dice mr-2"></i>GameNest</a>
+            <!-- Desktop Center Nav -->
+            <div class="hidden xl:flex items-center space-x-8 rtl:space-x-reverse text-sm font-medium">
+                <div class="dropdown-wrapper">
+                    <button class="nav-link active dropdown-toggle inline-flex items-center gap-1">
+                        <span>Home</span><i
+                            class="fas fa-chevron-down text-[10px] leading-none inline-block translate-y-[2.5px]"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="index.html" class="text-accent font-medium">Home 1</a>
+                        <a href="home2.html">Home 2</a>
+                    </div>
+                </div>
+                <a href="products.html" class="nav-link">Products</a>
+                  <a href="picks.html" class="nav-link">Picks</a>
+                  <a href="newarivals.html" class="nav-link">New Arrivals</a>
+                  <a href="gamenights.html" class="nav-link">Game Nights</a>
+                  <a href="about.html" class="nav-link">About</a>
+                  <a href="contact.html" class="nav-link">Contact</a>
+            </div>
+            <div class="hidden xl:flex items-center gap-4">
+                <a href="login.html" class="btn-outline px-5 py-2 text-sm font-medium"><i class="fas fa-sign-in-alt mr-1"></i> Login</a>
+                <a href="signup.html" class="btn-primary px-5 py-2 text-sm font-medium"><i class="fas fa-user-plus mr-1"></i> Signup</a>
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-accent/10"><i
+                        class="fas fa-moon light-icon"></i><i class="fas fa-sun dark-icon hidden"></i></button>
+                <button id="lang-icon" class="p-2 rounded-full hover:bg-accent/10"><i class="fas fa-exchange-alt"></i></button>
+            </div>
+            <div class="xl:hidden flex items-center gap-3">
+                <button id="mobile-menu-open"><i class="fas fa-bars text-2xl"></i></button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-drawer" class="fixed inset-0 z-50 pointer-events-none transition-all duration-300">
+        <div id="drawer-backdrop" class="absolute inset-0 bg-black/50 opacity-0 transition pointer-events-none"></div>
+        <div id="drawer-panel"
+            class="absolute top-0 left-0 w-80 h-full bg-card shadow-2xl transform -translate-x-full transition-transform duration-300 p-6 overflow-y-auto">
+            <div class="flex justify-between items-center border-b border-border pb-4"><a href="index.html" class="text-2xl font-bold tracking-tight text-accent" style="font-weight: 700 !important;; color: var(--accent) !important;"><i class="fas fa-dice mr-2"></i>GameNest</a><button id="drawer-close"><i
+                        class="fas fa-times text-xl"></i></button></div>
+            <nav class="flex flex-col gap-3 mt-6">
+                <div><button id="mobile-home-toggle"
+                        class="flex w-full justify-between items-center py-2 font-medium text-accent">Home <i
+                            class="fas fa-chevron-down text-xs"></i></button>
+                    <div id="mobile-home-submenu" class="pl-4 flex flex-col gap-2 mt-1 border-l border-border">
+                        <a href="index.html" class="text-accent font-medium">Home 1</a><a href="home2.html">Home 2</a>
+                    </div>
+                </div>
+                <a href="products.html" class="py-2 font-medium">Products</a>
+                  <a href="picks.html" class="py-2 font-medium">Picks</a>
+                  <a href="newarivals.html" class="py-2 font-medium">New Arrivals</a>
+                  <a href="gamenights.html" class="py-2 font-medium">Game Nights</a>
+                  <a href="about.html" class="py-2 font-medium">About</a>
+                  <a href="contact.html" class="py-2 font-medium">Contact</a>
+                <div class="pt-4 border-t border-border flex gap-3 mt-4">
+                    <a href="login.html"
+                        class="flex-1 text-center border border-accent rounded-full py-2 text-accent"><i
+                            class="fas fa-key mr-1"></i> Login</a>
+                    <a href="signup.html" class="flex-1 text-center bg-accent rounded-full py-2 text-white"><i
+                            class="fas fa-user-plus mr-1"></i> Signup</a>
+                </div>
+                <div class="flex justify-around mt-6 pt-2"><button id="mobile-theme-btn" class="p-2"><i
+                            class="fas fa-moon"></i> Theme</button><button id="mobile-rtl-btn" class="p-2"><i
+                            class="fas fa-exchange-alt"></i> RTL</button></div>
+            </nav>
+        </div>
+    </div>
+<main class="pt-28">
+        <!-- ========== S1: NEW ARRIVALS HERO ========== -->
+        <section class="relative py-12 md:py-20 overflow-hidden border-b border-border bg-[var(--hover-bg)]/20">
+            <div class="max-w-5xl mx-auto px-5 text-center reveal">
+                <span class="inline-block bg-accent/10 text-accent px-4 py-1 rounded-full text-sm font-medium mb-4">
+                    <i class="fas fa-truck-loading mr-1"></i>
+                    FRESH OFF THE TRUCK
+                </span>
+                <h1 class="text-4xl md:text-5xl font-medium leading-tight mb-6">Discover the <span class="text-accent">Newest Adventures.</span></h1>
+                <p class="text-secondary text-lg max-w-2xl mx-auto mb-8">
+                    We've just unpacked the latest releases, long-awaited expansions, and highly anticipated restocks. Browse what's hot and secure your copy before they sell out.
+                </p>
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button class="btn-primary px-8 py-3 rounded-xl font-medium shadow-md">Shop This Week's Drop</button>
+                    <button class="btn-outline px-8 py-3 rounded-xl font-medium">View Upcoming Pre-orders</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== S2: JUST UNBOXED (LATEST RELEASES GRID) ========== -->
+        <section id="just-unboxed" class="py-16">
+            <div class="max-w-7xl mx-auto px-5 reveal">
+                <div class="flex justify-between items-end mb-10">
+                    <div>
+                        <h2 class="text-3xl md:text-4xl font-medium">Just <span class="text-accent">Unboxed</span></h2>
+                        <div class="w-20 h-1 bg-accent mt-3 rounded-full"></div>
+                        <p class="text-secondary mt-3">The absolute latest titles to hit our shelves this week.</p>
+                    </div>
+                    <div class="hidden md:flex gap-2">
+                        <button class="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:text-accent hover:border-accent transition"><i class="fas fa-chevron-left"></i></button>
+                        <button class="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:text-accent hover:border-accent transition"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- New Item 1 -->
+                    <div class="bg-card border border-border rounded-2xl p-4 hover:-translate-y-1 hover:shadow-xl transition duration-300 group">
+                        <div class="relative overflow-hidden rounded-xl mb-4">
+                            <span class="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded z-10 shadow-sm">NEW</span>
+                            <img src="assets/x1.jpg" class="h-56 w-full object-cover group-hover:scale-105 transition duration-500" alt="Wyrmspan">
+                        </div>
+                        <h3 class="font-medium text-lg truncate">Wyrmspan</h3>
+                        <p class="text-xs text-secondary mb-3">Engine-Building • 1-5 Players</p>
+                        <div class="flex justify-between items-center border-t border-border pt-3">
+                            <span class="text-accent font-bold text-lg">$65.00</span>
+                            <button class="bg-accent/10 text-accent hover:bg-accent hover:text-white px-3 py-1.5 rounded-lg text-sm font-medium transition">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <!-- New Item 2 -->
+                    <div class="bg-card border border-border rounded-2xl p-4 hover:-translate-y-1 hover:shadow-xl transition duration-300 group">
+                        <div class="relative overflow-hidden rounded-xl mb-4">
+                            <span class="absolute top-2 left-2 bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded z-10 shadow-sm"><i class="fas fa-fire mr-1"></i> Selling Fast</span>
+                            <img src="assets/x2.jpg" class="h-56 w-full object-cover group-hover:scale-105 transition duration-500" alt="Dune Uprising">
+                        </div>
+                        <h3 class="font-medium text-lg truncate">Dune: Imperium Uprising</h3>
+                        <p class="text-xs text-secondary mb-3">Worker Placement • 1-6 Players</p>
+                        <div class="flex justify-between items-center border-t border-border pt-3">
+                            <span class="text-accent font-bold text-lg">$60.00</span>
+                            <button class="bg-accent/10 text-accent hover:bg-accent hover:text-white px-3 py-1.5 rounded-lg text-sm font-medium transition">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <!-- New Item 3 -->
+                    <div class="bg-card border border-border rounded-2xl p-4 hover:-translate-y-1 hover:shadow-xl transition duration-300 group">
+                        <div class="relative overflow-hidden rounded-xl mb-4">
+                            <span class="absolute top-2 left-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded z-10 shadow-sm">NEW</span>
+                            <img src="assets/x3.jpg" class="h-56 w-full object-cover group-hover:scale-105 transition duration-500" alt="Daybreak">
+                        </div>
+                        <h3 class="font-medium text-lg truncate">Daybreak</h3>
+                        <p class="text-xs text-secondary mb-3">Cooperative • 1-4 Players</p>
+                        <div class="flex justify-between items-center border-t border-border pt-3">
+                            <span class="text-accent font-bold text-lg">$49.99</span>
+                            <button class="bg-accent/10 text-accent hover:bg-accent hover:text-white px-3 py-1.5 rounded-lg text-sm font-medium transition">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <!-- New Item 4 -->
+                    <div class="bg-card border border-border rounded-2xl p-4 hover:-translate-y-1 hover:shadow-xl transition duration-300 group">
+                        <div class="relative overflow-hidden rounded-xl mb-4">
+                            <span class="absolute top-2 left-2 bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded z-10 shadow-sm">Expansion</span>
+                            <img src="assets/x4.jpg" class="h-56 w-full object-cover group-hover:scale-105 transition duration-500" alt="Ark Nova Marine Worlds">
+                        </div>
+                        <h3 class="font-medium text-lg truncate">Ark Nova: Marine Worlds</h3>
+                        <p class="text-xs text-secondary mb-3">Expansion • Requires Base Game</p>
+                        <div class="flex justify-between items-center border-t border-border pt-3">
+                            <span class="text-accent font-bold text-lg">$34.99</span>
+                            <button class="bg-accent/10 text-accent hover:bg-accent hover:text-white px-3 py-1.5 rounded-lg text-sm font-medium transition">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== S3: KICKSTARTER RETAIL HIGHLIGHT ========== -->
+        <section id="kickstarter-retail" class="py-16 bg-accent/5">
+            <div class="max-w-7xl mx-auto px-5 reveal">
+                <div class="bg-card border border-border rounded-3xl p-6 md:p-10 shadow-lg flex flex-col lg:flex-row items-center gap-10">
+                    <div class="w-full lg:w-1/2">
+                        <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-bold mb-4">
+                            <i class="fab fa-kickstarter text-base"></i> CROWDFUNDED HITS
+                        </div>
+                        <h2 class="text-3xl md:text-4xl font-medium mb-4">Now Available at <span class="text-accent">Retail</span></h2>
+                        <p class="text-secondary mb-6">
+                            Missed the Kickstarter campaign? Don't worry! We've secured limited quantities of the most highly anticipated crowdfunded games, including some exclusive deluxe components and stretch goals.
+                        </p>
+                        <ul class="space-y-3 mb-8">
+                            <li class="flex items-center text-sm"><i class="fas fa-check-circle text-accent mr-3"></i> Premium components without the shipping wait</li>
+                            <li class="flex items-center text-sm"><i class="fas fa-check-circle text-accent mr-3"></i> Support your local store while getting the hottest titles</li>
+                            <li class="flex items-center text-sm"><i class="fas fa-exclamation-circle text-orange-500 mr-3"></i> Highly limited stock — once they're gone, they're gone</li>
+                        </ul>
+                        <button class="btn-primary px-8 py-3 rounded-xl shadow-md">Shop Crowdfunded Games</button>
+                    </div>
+                    
+                    <div class="w-full lg:w-1/2 grid grid-cols-2 gap-4">
+                        <div class="relative group rounded-xl overflow-hidden shadow-md border border-border">
+                            <img src="assets/v1.jpg" class="w-full h-48 object-cover" alt="Voidfall">
+                            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                                <span class="text-white font-medium text-center px-2">Voidfall<br><span class="text-xs text-accent">Retail Edition</span></span>
+                            </div>
+                        </div>
+                        <div class="relative group rounded-xl overflow-hidden shadow-md border border-border mt-6">
+                            <img src="assets/v2.jpg" class="w-full h-48 object-cover" alt="Castles of Burgundy">
+                            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
+                                <span class="text-white font-medium text-center px-2">Castles of Burgundy<br><span class="text-xs text-accent">Special Edition</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== S4: BACK ON THE SHELVES (RESTOCKS) ========== -->
+        <section id="restocks" class="py-16">
+            <div class="max-w-7xl mx-auto px-5 reveal">
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-medium">Back on the <span class="text-accent">Shelves</span></h2>
+                    <div class="w-20 h-1 bg-accent mx-auto mt-3 rounded-full"></div>
+                    <p class="text-secondary mt-3">These highly sought-after games are finally back in print. Grab them while you can!</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Restock 1 -->
+                    <div class="bg-[var(--bg-body)] border border-border rounded-xl p-4 flex gap-4 sm:gap-5 hover:border-accent transition items-center h-full">
+                        <img src="assets/s1.jpg" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg border border-border shadow-sm flex-shrink-0" alt="Blood on the Clocktower">
+                        <div class="flex-1 min-w-0">
+                            <span class="text-[10px] uppercase tracking-wider text-accent font-bold mb-1 block">Highly Requested</span>
+                            <h3 class="font-medium text-lg leading-tight mb-2 truncate">Blood on the Clocktower</h3>
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-secondary">$145.00</span>
+                                <button class="text-accent text-sm hover:underline"><i class="fas fa-cart-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Restock 2 -->
+                    <div class="bg-[var(--bg-body)] border border-border rounded-xl p-4 flex gap-4 sm:gap-5 hover:border-accent transition items-center h-full">
+                        <img src="assets/s2.jpg" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg border border-border shadow-sm flex-shrink-0" alt="Ra">
+                        <div class="flex-1 min-w-0">
+                            <span class="text-[10px] uppercase tracking-wider text-accent font-bold mb-1 block">Classic Reprint</span>
+                            <h3 class="font-medium text-lg leading-tight mb-2 truncate">Ra (New Edition)</h3>
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-secondary">$49.99</span>
+                                <button class="text-accent text-sm hover:underline"><i class="fas fa-cart-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Restock 3 -->
+                    <div class="bg-[var(--bg-body)] border border-border rounded-xl p-4 flex gap-4 sm:gap-5 hover:border-accent transition items-center h-full">
+                        <img src="assets/s3.jpg" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg border border-border shadow-sm flex-shrink-0" alt="Spirit Island">
+                        <div class="flex-1 min-w-0">
+                            <span class="text-[10px] uppercase tracking-wider text-accent font-bold mb-1 block">Back in Stock</span>
+                            <h3 class="font-medium text-lg leading-tight mb-2 truncate">Spirit Island</h3>
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-secondary">$89.99</span>
+                                <button class="text-accent text-sm hover:underline"><i class="fas fa-cart-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== S5: UPCOMING PRE-ORDERS CALENDAR ========== -->
+        <section id="preorders" class="py-16 bg-[var(--hover-bg)]/30 border-y border-border">
+            <div class="max-w-7xl mx-auto px-5 reveal">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+                    <div>
+                        <h2 class="text-3xl font-medium">Upcoming <span class="text-accent">Pre-Orders</span></h2>
+                        <p class="text-secondary mt-2">Reserve your copy now. ETA dates are subject to publisher shipping schedules.</p>
+                    </div>
+                    <button class="btn-outline px-5 py-2 text-sm">View Full Calendar</button>
+                </div>
+
+                <div class="bg-card border border-border rounded-2xl overflow-hidden shadow-sm">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-[var(--bg-body)] border-b border-border text-sm text-secondary">
+                                    <th class="p-4 font-medium">Game Title</th>
+                                    <th class="p-4 font-medium">Publisher</th>
+                                    <th class="p-4 font-medium">Expected Arrival</th>
+                                    <th class="p-4 font-medium text-right">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-sm">
+                                <tr class="border-b border-border hover:bg-[var(--bg-body)] transition">
+                                    <td class="p-4 font-medium flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-gray-200 rounded object-cover overflow-hidden flex-shrink-0">
+                                            <img src="assets/aq1.jpg" alt="Game Icon" class="w-full h-full object-cover">
+                                        </div>
+                                        Gloomhaven: Buttons & Bugs
+                                    </td>
+                                    <td class="p-4 text-secondary">Cephalofair Games</td>
+                                    <td class="p-4 text-accent font-medium"><i class="far fa-calendar-alt mr-1"></i> Mid-September</td>
+                                    <td class="p-4 text-right">
+                                        <button class="bg-accent text-white px-4 py-1.5 rounded-lg font-medium shadow-sm hover:bg-accent/90 transition text-xs">Pre-Order</button>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-border hover:bg-[var(--bg-body)] transition">
+                                    <td class="p-4 font-medium flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-gray-200 rounded object-cover overflow-hidden flex-shrink-0">
+                                            <img src="assets/aq2.jpg" alt="Game Icon" class="w-full h-full object-cover">
+                                        </div>
+                                        Marvel Champions: Age of Apocalypse
+                                    </td>
+                                    <td class="p-4 text-secondary">Fantasy Flight Games</td>
+                                    <td class="p-4 text-accent font-medium"><i class="far fa-calendar-alt mr-1"></i> Late September</td>
+                                    <td class="p-4 text-right">
+                                        <button class="bg-accent text-white px-4 py-1.5 rounded-lg font-medium shadow-sm hover:bg-accent/90 transition text-xs">Pre-Order</button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-[var(--bg-body)] transition">
+                                    <td class="p-4 font-medium flex items-center gap-3">
+                                        <div class="w-10 h-10 bg-gray-200 rounded object-cover overflow-hidden flex-shrink-0">
+                                            <img src="assets/aq3.jpg" alt="Game Icon" class="w-full h-full object-cover">
+                                        </div>
+                                        Lorcana: Into the Inklands (Booster Box)
+                                    </td>
+                                    <td class="p-4 text-secondary">Ravensburger</td>
+                                    <td class="p-4 text-orange-500 font-medium"><i class="far fa-clock mr-1"></i> Allocation Pending</td>
+                                    <td class="p-4 text-right">
+                                        <button class="border border-border text-secondary px-4 py-1.5 rounded-lg font-medium hover:border-accent hover:text-accent transition text-xs">Join Waitlist</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== S6: RESTOCK ALERTS (CTA) ========== -->
+        <section id="alerts" class="py-16">
+            <div class="max-w-4xl mx-auto px-5 reveal">
+                <div class="bg-card border-2 border-accent/20 rounded-3xl p-8 md:p-12 shadow-lg relative overflow-hidden flex flex-col items-start">
+                    <i class="fas fa-bell text-9xl text-accent opacity-5 absolute right-4 md:right-12 top-1/2 transform -translate-y-1/2 pointer-events-none"></i>
+                    <div class="relative z-10 w-full">
+                        <h2 class="text-3xl font-medium mb-3">Never Miss a <span class="text-accent">Drop</span></h2>
+                        <p class="text-secondary mb-8 max-w-lg">
+                            Hot items sell out fast. Sign up for our "Restock Alerts" text list to get notified the second rare games and massive restocks hit our shelves.
+                        </p>
+                        
+                        <form class="flex flex-col sm:flex-row justify-start gap-3 w-full max-w-md">
+                            <div class="relative flex-1">
+                                <i class="fas fa-mobile-alt absolute left-4 top-1/2 transform -translate-y-1/2 text-secondary"></i>
+                                <input type="tel" placeholder="Mobile Number" class="w-full pl-10 pr-4 py-3.5 rounded-xl border border-border bg-[var(--bg-body)] focus:outline-none focus:border-accent" required>
+                            </div>
+                            <button type="submit" class="btn-primary py-3.5 px-6 rounded-xl font-medium shadow-md whitespace-nowrap">Text Me Alerts</button>
+                        </form>
+                        <p class="text-xs text-secondary mt-4">Standard message & data rates may apply. Opt out anytime.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer class="pt-16 pb-8 border-t border-slate-800"
+        style="background: var(--footer-bg); color: var(--footer-text);">
+        <div class="max-w-7xl mx-auto px-5 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+            <div class="col-span-2 md:col-span-2 lg:col-span-1">
+                <a href="index.html" class="text-2xl font-bold tracking-tight text-accent" style="font-weight: 700 !important;"><i class="fas fa-dice mr-2"></i>GameNest</a>
+                <p class="text-xs text-slate-400 mt-3 leading-relaxed">
+                    Your ultimate destination for board games, card games, and tabletop adventures. Join our community and discover your next favorite game.
+                </p>
+                <div class="mt-4 space-y-2 text-xs text-slate-300">
+                    <p class="flex items-center gap-2"><i class="fas fa-phone text-accent"></i> (800) 555-GAME</p>
+                    <p class="flex items-center gap-2"><i class="far fa-clock text-accent"></i> 24 Hours / 7 Days</p>
+                </div>
+                <div class="flex gap-2.5 mt-5">
+                    <a href="#"
+                        class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-accent flex items-center justify-center transition-all duration-300 text-white"><i
+                            class="fab fa-instagram"></i></a>
+                    <a href="#"
+                        class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-accent flex items-center justify-center transition-all duration-300 text-white"><i
+                            class="fab fa-facebook-f text-sm"></i></a>
+                    <a href="#"
+                        class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-accent flex items-center justify-center transition-all duration-300 text-white"><i
+                            class="fab fa-x-twitter"></i></a>
+                    <a href="#"
+                        class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-accent flex items-center justify-center transition-all duration-300 text-white"><i
+                            class="fab fa-linkedin-in text-sm"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="font-medium text-sm tracking-wider uppercase text-white mb-4">Categories</h4>
+                <ul class="text-xs space-y-2.5 text-slate-400">
+                    <li><a href="#inventory"
+                            class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Board Games</a></li>
+                    <li><a href="#scheduling"
+                            class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Card Games</a></li>
+                    <li><a href="#comparison"
+                            class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Roleplaying Games</a></li>
+                    <li><a href="#scheduling"
+                            class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Miniatures</a></li>
+                    <li><a href="#scheduling"
+                            class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Accessories</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-medium text-sm tracking-wider uppercase text-white mb-4">Customer Care</h4>
+                <ul class="text-xs space-y-2.5 text-slate-400">
+                    <li><a href="contact.html"
+                            class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Shipping Info</a></li>
+                    <li><a href="#comparison"
+                            class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Return Policy</a></li>
+                    <li><a href="contact.html"
+                            class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Gift Cards</a></li>
+                    <li><a href="contact.html"
+                            class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">FAQ</a></li>
+                    <li><a href="contact.html"
+                            class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Contact Us</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-medium text-sm tracking-wider uppercase text-white mb-4">Explore</h4>
+                <ul class="text-xs space-y-2.5 text-slate-400">
+                    <li><a href="#tracking"
+                            class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Store Locations</a></li>
+                    <li><a href="index.html"
+                            class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">About
+                            GameNest</a></li>
+                    <li><a href="signup.html"
+                            class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Careers</a>
+                    </li>
+                    <li><a href="login.html"
+                            class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Events Calendar</a></li>
+                    <li><a href="contact.html"
+                            class="hover:text-accent hover:translate-x-1 inline-block transition-all duration-200">Press
+                            Kit</a></li>
+                </ul>
+            </div>
+            <div class="col-span-2 md:col-span-3 lg:col-span-1">
+                <h4 class="font-medium text-sm tracking-wider uppercase text-white mb-4">Stay Connected</h4>
+                <p class="text-xs text-slate-400 mb-3 leading-relaxed">
+                    Subscribe for the latest game releases, exclusive discounts, and upcoming event invitations.
+                </p>
+                <form class="flex gap-2 max-w-xs" onsubmit="event.preventDefault(); alert('Subscribed successfully!');">
+                    <input type="email" placeholder="Your email address" required
+                        class="bg-slate-800 border border-slate-700 text-white text-xs rounded-lg px-3 py-2 w-full focus:outline-none focus:border-accent transition-colors">
+                    <button type="submit"
+                        class="bg-accent text-white px-3 py-2 rounded-lg text-xs font-medium hover:opacity-90 transition-opacity"><i
+                            class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        <div
+            class="max-w-7xl mx-auto px-5 mt-12 pt-6 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-400">
+            <p>© 2026 GameNest. Play with Passion. All rights reserved.</p>
+            <div class="flex gap-6">
+                <a href="contact.html" class="hover:text-accent transition-colors">Privacy Policy</a>
+                <a href="contact.html" class="hover:text-accent transition-colors">Terms of Service</a>
+                <a href="contact.html" class="hover:text-accent transition-colors">Cookie Settings</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        (function () {
+            const html = document.documentElement;
+            // Theme toggles
+            const themeBtn = document.getElementById('theme-toggle'), mobileTheme = document.getElementById('mobile-theme-btn');
+            const applyTheme = (theme) => { html.setAttribute('data-theme', theme); localStorage.setItem('theme', theme); document.querySelectorAll('.light-icon').forEach(icon => icon.classList.toggle('hidden', theme === 'dark')); document.querySelectorAll('.dark-icon').forEach(icon => icon.classList.toggle('hidden', theme === 'light')); };
+            const initTheme = () => { const stored = localStorage.getItem('theme'); const prefers = window.matchMedia('(prefers-color-scheme: dark)').matches; applyTheme(stored === 'dark' || (!stored && prefers) ? 'dark' : 'light'); };
+            const toggleTheme = () => { const cur = html.getAttribute('data-theme'); applyTheme(cur === 'light' ? 'dark' : 'light'); };
+            themeBtn?.addEventListener('click', toggleTheme); if (mobileTheme) mobileTheme.addEventListener('click', toggleTheme);
+            initTheme();
+            // RTL
+            const langBtn = document.getElementById('lang-icon'), mobileRtl = document.getElementById('mobile-rtl-btn');
+            const toggleRtl = () => { const isRtl = html.getAttribute('dir') === 'rtl'; html.setAttribute('dir', isRtl ? 'ltr' : 'rtl'); localStorage.setItem('dir', isRtl ? 'ltr' : 'rtl'); };
+            if (langBtn) langBtn.addEventListener('click', toggleRtl);
+            if (mobileRtl) mobileRtl.addEventListener('click', toggleRtl);
+            const savedDir = localStorage.getItem('dir') === 'rtl' ? 'rtl' : 'ltr'; html.setAttribute('dir', savedDir);
+            // dropdowns desktop
+            document.querySelectorAll('.dropdown-wrapper').forEach(drop => {
+                const btn = drop.querySelector('.dropdown-toggle');
+                if (window.innerWidth >= 1280) {
+                    drop.addEventListener('mouseenter', () => drop.classList.add('open'));
+                    drop.addEventListener('mouseleave', () => drop.classList.remove('open'));
+                } else {
+                    btn?.addEventListener('click', (e) => { e.preventDefault(); drop.classList.toggle('open'); });
+                }
+            });
+            document.addEventListener('click', (e) => { if (!e.target.closest('.dropdown-wrapper')) document.querySelectorAll('.dropdown-wrapper').forEach(d => d.classList.remove('open')); });
+            // Mobile drawer
+            const drawer = document.getElementById('mobile-drawer'), backdrop = document.getElementById('drawer-backdrop'), panel = document.getElementById('drawer-panel'), openBtn = document.getElementById('mobile-menu-open'), closeBtn = document.getElementById('drawer-close');
+            const openDrawer = () => { drawer.classList.remove('pointer-events-none'); panel.classList.remove('-translate-x-full'); backdrop.classList.add('opacity-100', 'pointer-events-auto'); document.body.style.overflow = 'hidden'; };
+            const closeDrawer = () => { panel.classList.add('-translate-x-full'); backdrop.classList.remove('opacity-100', 'pointer-events-auto'); setTimeout(() => drawer.classList.add('pointer-events-none'), 300); document.body.style.overflow = ''; };
+            openBtn?.addEventListener('click', openDrawer); closeBtn?.addEventListener('click', closeDrawer); backdrop?.addEventListener('click', closeDrawer);
+            document.getElementById('mobile-home-toggle')?.addEventListener('click', () => { document.getElementById('mobile-home-submenu')?.classList.toggle('hidden'); });
+            document.getElementById('mobile-dashboard-toggle')?.addEventListener('click', () => { document.getElementById('mobile-dashboard-submenu')?.classList.toggle('hidden'); });
+            // reveal animation
+            const reveals = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('active'); }); }, { threshold: 0.15 });
+            reveals.forEach(r => observer.observe(r));
+            // Add active nav based on hash
+            const navLinks = document.querySelectorAll('.nav-link, .dropdown-menu a, #mobile-drawer a');
+            navLinks.forEach(link => { link.addEventListener('click', function (e) { if (this.getAttribute('href')?.startsWith('#')) e.preventDefault(); window.location.hash = this.getAttribute('href')?.slice(1) || ''; }); });
+
+            // Dynamic Active Page Highlighter (Desktop & Mobile)
+            const currentPath = window.location.pathname;
+            let currentPage = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+            if (!currentPage || currentPage === '/') currentPage = 'index.html';
+
+            // 1. Clean slate: clear all hardcoded active classes
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('.dropdown-toggle').forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('.dropdown-menu a').forEach(link => link.classList.remove('text-accent', 'font-medium'));
+            
+            const mobileDrawer = document.getElementById('mobile-drawer');
+            if (mobileDrawer) {
+                mobileDrawer.querySelectorAll('a').forEach(link => {
+                    link.classList.remove('active', 'text-accent', 'font-medium');
+                });
+                mobileDrawer.querySelectorAll('button').forEach(btn => {
+                    btn.classList.remove('text-accent');
+                });
+                // Reset submenus to hidden
+                const dbSub = document.getElementById('mobile-dashboard-submenu');
+                if (dbSub) dbSub.classList.add('hidden');
+                const homeSub = document.getElementById('mobile-home-submenu');
+                if (homeSub) homeSub.classList.add('hidden');
+            }
+
+            // 2. Desktop Highlighting
+            let desktopMatched = false;
+            document.querySelectorAll('.dropdown-menu a').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPage) {
+                    link.classList.add('text-accent', 'font-medium');
+                    const wrapper = link.closest('.dropdown-wrapper');
+                    if (wrapper) {
+                        const toggle = wrapper.querySelector('.dropdown-toggle');
+                        if (toggle) toggle.classList.add('active');
+                    }
+                    desktopMatched = true;
+                }
+            });
+
+            if (!desktopMatched) {
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    const wrapper = link.closest('.dropdown-wrapper');
+                    if (!wrapper) {
+                        const href = link.getAttribute('href');
+                        if (href === currentPage) {
+                            link.classList.add('active');
+                        }
+                    }
+                });
+            }
+
+            // 3. Mobile Highlighting
+            if (mobileDrawer) {
+                let mobileMatched = false;
+                mobileDrawer.querySelectorAll('a').forEach(link => {
+                    const href = link.getAttribute('href');
+                    if (href === currentPage) {
+                        link.classList.add('active');
+                        if (!link.classList.contains('rounded-full')) {
+                            link.classList.add('text-accent', 'font-medium');
+                        }
+                        
+                        // Handle parents/submenus
+                        const homeSubmenu = document.getElementById('mobile-home-submenu');
+                        const dashboardSubmenu = document.getElementById('mobile-dashboard-submenu');
+                        
+                        if (homeSubmenu && homeSubmenu.contains(link)) {
+                            const homeToggle = document.getElementById('mobile-home-toggle');
+                            if (homeToggle) homeToggle.classList.add('text-accent');
+                            homeSubmenu.classList.remove('hidden');
+                        } else if (dashboardSubmenu && dashboardSubmenu.contains(link)) {
+                            const dashboardToggle = document.getElementById('mobile-dashboard-toggle');
+                            if (dashboardToggle) dashboardToggle.classList.add('text-accent');
+                            dashboardSubmenu.classList.remove('hidden');
+                        }
+                        mobileMatched = true;
+                    }
+                });
+
+                // Fallback for index.html / home2.html / empty path
+                if (!mobileMatched && (currentPage === 'index.html' || currentPage === 'home2.html')) {
+                    const homeToggle = document.getElementById('mobile-home-toggle');
+                    if (homeToggle) homeToggle.classList.add('text-accent');
+                    const homeSubmenu = document.getElementById('mobile-home-submenu');
+                    if (homeSubmenu) homeSubmenu.classList.remove('hidden');
+                    
+                    const matchingLink = mobileDrawer.querySelector(`a[href="${currentPage}"]`);
+                    if (matchingLink) {
+                        matchingLink.classList.add('active', 'text-accent', 'font-medium');
+                    }
+                }
+            }
+        })();
+    </script>
+    <!-- home2.html redirect simulation: if path includes home2.html, just update theme but fully functional -->
+    <script>
+        // MOCK support for home2 version (just stays same design but content identical, but we respect current page path)
+        if (window.location.pathname.includes('home2.html')) { document.title = "GameNestSwift | Performance Pro Edition"; }
+    </script>
+    <!-- Floating Call Button -->
+    <a href="tel:8005557655" class="fixed bottom-6 right-6 bg-accent text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl z-[90] hover:bg-accent-dark transition-transform hover:scale-110 flex md:hidden" style="box-shadow: 0 4px 14px rgba(220, 38, 38, 0.5);">
+        <i class="fas fa-phone text-2xl"></i>
+    </a>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
