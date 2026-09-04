@@ -16,8 +16,8 @@
             --bg-body: #F4F7FC;
             --text-primary: #0B1E2E;
             --text-secondary: #1E3A5F;
-            --accent: #DC2626;
-            --accent-dark: #B91C1C;
+            --accent: #673AB7;
+            --accent-dark: #512DA8;
             --primary: #1E4A6B;
             --card-bg: #FFFFFF;
             --border-light: #E2E8F0;
@@ -29,8 +29,8 @@
             --bg-body: #0B1120;
             --text-primary: #F1F5F9;
             --text-secondary: #94A3B8;
-            --accent: #EF4444;
-            --accent-dark: #DC2626;
+            --accent: #9333EA;
+            --accent-dark: #673AB7;
             --primary: #3B82F6;
             --card-bg: #1E293B;
             --border-light: #334155;
@@ -72,9 +72,9 @@
             color: #ffffff !important;
             background: var(--accent);
         }
-        .btn-primary:hover { background: var(--accent-dark) !important; transform: translateY(-1px) scale(1.02); box-shadow: 0 6px 18px 0 rgba(220, 38, 38, 0.5); }
+        .btn-primary:hover { background: var(--accent-dark) !important; transform: translateY(-1px) scale(1.02); box-shadow: 0 6px 18px 0 rgba(103, 58, 183, 0.5); }
         html[data-theme='dark'] .btn-primary { color: #0f172a !important; font-weight: 600 !important; }
-        html[data-theme='dark'] .btn-primary:hover { box-shadow: 0 6px 18px 0 rgba(239, 68, 68, 0.4); }
+        html[data-theme='dark'] .btn-primary:hover { box-shadow: 0 6px 18px 0 rgba(147, 51, 234, 0.4); }
 
         .btn-outline { color: var(--accent) !important; border: 2px solid var(--accent) !important; background: transparent; }
         .btn-outline:hover { background: var(--accent) !important; color: #ffffff !important; transform: translateY(-1px); }
@@ -196,7 +196,7 @@
                     </div>
                 </div>
 
-                <div id="game-status-banner" class="w-full py-2 px-3 mt-4 text-center rounded-xl text-xs font-medium bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200/40 transition-colors duration-300">
+                <div id="game-status-banner" class="w-full py-2 px-3 mt-4 text-center rounded-xl text-xs font-medium bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 border border-purple-200/40 transition-colors duration-300">
                     ⚠️ LOW PRESSURE – Do not drive.
                 </div>
 
@@ -294,7 +294,7 @@
             const toast = document.getElementById('custom-toast');
             const toastMsg = document.getElementById('toast-message');
             toastMsg.innerText = msg;
-            toast.className = `absolute top-4 left-4 right-4 text-white text-xs font-medium py-3 px-4 rounded-xl shadow-lg flex items-center justify-between z-50 transition-all duration-300 ${isError ? 'bg-red-500' : 'bg-green-600'}`;
+            toast.className = `absolute top-4 left-4 right-4 text-white text-xs font-medium py-3 px-4 rounded-xl shadow-lg flex items-center justify-between z-50 transition-all duration-300 ${isError ? 'bg-purple-500' : 'bg-green-600'}`;
             toast.classList.remove('hidden');
             setTimeout(() => toast.classList.add('hidden'), 3000);
         }
@@ -330,7 +330,7 @@
             const banner = document.getElementById('game-status-banner');
             if (currentPSI < 20) {
                 banner.innerText = "⚠️ LOW PRESSURE – Do not drive.";
-                banner.className = "w-full py-2 px-3 mt-4 text-center rounded-xl text-xs font-medium bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200/40 transition-colors duration-300";
+                banner.className = "w-full py-2 px-3 mt-4 text-center rounded-xl text-xs font-medium bg-purple-100 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 border border-purple-200/40 transition-colors duration-300";
             } else if (currentPSI < 30) {
                 banner.innerText = "⚡ Warning: Low. Keep pumping to 32 PSI.";
                 banner.className = "w-full py-2 px-3 mt-4 text-center rounded-xl text-xs font-medium bg-amber-100 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 border border-amber-200/40 transition-colors duration-300";
