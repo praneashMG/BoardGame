@@ -46,7 +46,17 @@
             overflow-x: hidden;
         }
         .text-accent { color: var(--accent); }
-        .bg-accent { background-color: var(--accent); }
+        .bg-accent {
+            background-color: var(--accent);
+        }
+
+        .hover\:bg-accent:hover {
+            background-color: var(--accent) !important;
+        }
+
+        .group:hover .group-hover\:bg-accent {
+            background-color: var(--accent) !important;
+        }
         .border-accent { border-color: var(--accent); }
         .hover\:bg-accent\/10:hover { background-color: color-mix(in srgb, var(--accent) 10%, transparent); }
         .bg-card { background-color: var(--card-bg); }
@@ -106,12 +116,21 @@
                 <i class="fas fa-home"></i> <span class="hidden sm:inline text-xs">Home</span>
             </a>
             <div class="h-4 w-px bg-border-light my-auto"></div>
-            <button id="theme-toggle" class="p-2 rounded-full hover:bg-accent/10 transition-colors" title="Toggle Theme">
-                <i class="fas fa-moon light-icon"></i><i class="fas fa-sun dark-icon hidden"></i>
-            </button>
-            <button id="lang-icon" class="p-2 rounded-full hover:bg-accent/10 transition-colors" title="Toggle RTL">
-                <i class="fas fa-globe"></i>
-            </button>
+            <div class="dropdown-wrapper">
+                    <button class="dropdown-toggle p-2 rounded-full hover:bg-accent/10 transition-colors" aria-label="Settings">
+                        <i class="fas fa-cog text-secondary"></i>
+                    </button>
+                    <div class="dropdown-menu" style="left: auto; right: 0; min-width: 160px;">
+                        <button id="theme-toggle" class="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent/10 transition-colors text-sm text-secondary rounded-md text-left">
+                            <i class="fas fa-moon light-icon w-4 text-center"></i><i class="fas fa-sun dark-icon hidden w-4 text-center"></i>
+                            <span class="light-icon">Dark Mode</span><span class="dark-icon hidden">Light Mode</span>
+                        </button>
+                        <button id="lang-icon" class="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent/10 transition-colors text-sm text-secondary rounded-md text-left mt-1">
+                            <i class="fas fa-exchange-alt w-4 text-center"></i>
+                            <span>Switch RTL</span>
+                        </button>
+                    </div>
+                </div>
         </div>
     </div>
 

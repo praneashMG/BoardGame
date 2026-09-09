@@ -58,6 +58,14 @@
             background-color: var(--accent);
         }
 
+        .hover\:bg-accent:hover {
+            background-color: var(--accent) !important;
+        }
+
+        .group:hover .group-hover\:bg-accent {
+            background-color: var(--accent) !important;
+        }
+
         .border-accent {
             border-color: var(--accent);
         }
@@ -446,10 +454,21 @@
             </div>
             <div class="hidden xl:flex items-center gap-4">
                 <a href="login.html" class="btn-outline px-5 py-2 text-sm font-medium"><i class="fas fa-sign-in-alt mr-1"></i> Login</a>
-                <a href="signup.html" class="btn-primary px-5 py-2 text-sm font-medium"><i class="fas fa-user-plus mr-1"></i> Signup</a>
-                <button id="theme-toggle" class="p-2 rounded-full hover:bg-accent/10"><i
-                        class="fas fa-moon light-icon"></i><i class="fas fa-sun dark-icon hidden"></i></button>
-                <button id="lang-icon" class="p-2 rounded-full hover:bg-accent/10"><i class="fas fa-exchange-alt"></i></button>
+                <div class="dropdown-wrapper">
+                    <button class="dropdown-toggle p-2 rounded-full hover:bg-accent/10 transition-colors" aria-label="Settings">
+                        <i class="fas fa-cog text-secondary"></i>
+                    </button>
+                    <div class="dropdown-menu" style="left: auto; right: 0; min-width: 160px;">
+                        <button id="theme-toggle" class="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent/10 transition-colors text-sm text-secondary rounded-md text-left">
+                            <i class="fas fa-moon light-icon w-4 text-center"></i><i class="fas fa-sun dark-icon hidden w-4 text-center"></i>
+                            <span class="light-icon">Dark Mode</span><span class="dark-icon hidden">Light Mode</span>
+                        </button>
+                        <button id="lang-icon" class="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent/10 transition-colors text-sm text-secondary rounded-md text-left mt-1">
+                            <i class="fas fa-exchange-alt w-4 text-center"></i>
+                            <span>Switch RTL</span>
+                        </button>
+                    </div>
+                </div>
             </div>
             <div class="xl:hidden flex items-center gap-3">
                 <button id="mobile-menu-open"><i class="fas fa-bars text-2xl"></i></button>
@@ -482,8 +501,6 @@
                     <a href="login.html"
                         class="flex-1 text-center border border-accent rounded-full py-2 text-accent"><i
                             class="fas fa-key mr-1"></i> Login</a>
-                    <a href="signup.html" class="flex-1 text-center bg-accent rounded-full py-2 text-white"><i
-                            class="fas fa-user-plus mr-1"></i> Signup</a>
                 </div>
                 <div class="flex justify-around mt-6 pt-2"><button id="mobile-theme-btn" class="p-2"><i
                             class="fas fa-moon"></i> Theme</button><button id="mobile-rtl-btn" class="p-2"><i
@@ -590,75 +607,115 @@
             </div>
         </section>
 
-        <!-- ========== S3: RECOMMENDATIONS (MODIFIED INNER STRUCTURE) ========== -->
-        <section id="recommendations" class="py-16 max-w-7xl mx-auto px-5">
-            <div class="text-center reveal mb-10">
-                <h2 class="text-3xl md:text-4xl font-medium">Smart <span class="text-accent">Recommendations</span></h2>
-                <div class="w-20 h-1 bg-accent mx-auto mt-3 rounded-full"></div>
-                <p class="text-secondary mt-3 max-w-2xl mx-auto">Not sure what to play? Filter by player count and age group to find your next favorite.</p>
+      <!-- ========== S3: RECOMMENDATIONS (MODIFIED & UPGRADED) ========== -->
+<section id="recommendations" class="py-16 max-w-7xl mx-auto px-5">
+    <!-- Engaging Header with Lifestyle Image -->
+    <div class="flex flex-col items-center gap-10 mb-12 text-center">
+        <div class="w-full max-w-3xl reveal">
+            <h2 class="text-3xl md:text-5xl font-bold leading-tight">
+                Find Your Next <span class="text-accent">Favorite Game</span>
+            </h2>
+            <div class="w-20 h-1.5 bg-accent mt-5 mx-auto rounded-full mb-6"></div>
+            <p class="text-secondary text-lg max-w-lg mx-auto">
+                Not sure what to play? Our smart recommendation engine filters by player count, age group, and mechanics to find the perfect match for your game night.
+            </p>
+        </div>
+       
+    </div>
+    
+    <!-- Smart Filter & Results Container -->
+    <div class="reveal bg-card rounded-3xl border border-border p-6 md:p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+        
+        <!-- Filter Bar -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-6 pb-6 border-b border-border mb-8">
+            <div>
+                <h3 class="text-xl font-semibold">Your Current Filter: <span class="text-accent bg-accent/10 px-3 py-1 rounded-lg ml-2">2 Players, Adults</span></h3>
+                <p class="text-secondary text-sm mt-2">Showing top-rated head-to-head and cooperative experiences.</p>
             </div>
+            <button class="border-2 border-accent text-accent hover:bg-accent hover:text-white font-medium rounded-xl px-5 py-2.5 text-sm whitespace-nowrap transition-colors flex items-center">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                Change Filters
+            </button>
+        </div>
+        
+        <!-- Game Recommendations Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
             
-            <div class="reveal bg-card rounded-2xl border border-border p-6 md:p-10 shadow-sm">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-6 pb-6 border-b border-border mb-8">
-                    <div>
-                        <h3 class="text-xl font-medium">Your Current Filter: <span class="text-accent">2 Players, Adults</span></h3>
-                        <p class="text-secondary text-sm">Showing top-rated head-to-head and cooperative experiences.</p>
-                    </div>
-                    <button class="btn-outline px-5 py-2 text-sm whitespace-nowrap"><i class="fas fa-sliders-h mr-1"></i> Change Filters</button>
+            <!-- Rec Item 1: 7 Wonders Duel -->
+            <div class="group bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 flex flex-col h-full hover:shadow-xl hover:border-indigo-400 transition-all duration-300 cursor-pointer">
+                <div class="relative h-56 bg-white flex items-center justify-center p-6 border-b border-gray-100">
+                    <img src="https://cdn.svc.asmodee.net/production-rprod/storage/games/7-wonders-duel/duel-content-3d-small-15988580661cqoW.png" alt="7 Wonders Duel Board Game" class="object-contain h-full group-hover:scale-110 transition-transform duration-500"/>
+                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">Age 10+</div>
                 </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
-                    <!-- Rec Item 1 -->
-                    <div class="bg-[var(--bg-body)] p-5 rounded-xl border border-border flex flex-col justify-between h-full hover:border-accent transition cursor-pointer">
-                        <div>
-                            <div class="flex justify-between items-center mb-3">
-                                <span class="text-sm font-medium text-accent">Age 14+</span>
-                                <span class="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded whitespace-nowrap"><i class="fas fa-user-friends mr-1"></i> 2 Players</span>
-                            </div>
-                            <h4 class="font-medium text-lg mb-2">7 Wonders Duel</h4>
-                            <p class="text-sm text-secondary">A civilization-building game designed specifically for two players. Fast-paced and deeply tactical.</p>
-                        </div>
-                        <div class="mt-5 pt-3 border-t border-border/50 text-sm font-medium flex justify-between items-center">
-                            <span class="text-green-600">In Stock</span>
-                            <span class="text-accent underline">View Details</span>
-                        </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-xs font-semibold bg-gray-200 text-gray-700 px-2.5 py-1 rounded-md flex items-center">
+                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+                            2 Players
+                        </span>
+                        <div class="flex text-yellow-400 text-sm">★★★★★</div>
                     </div>
-
-                    <!-- Rec Item 2 -->
-                    <div class="bg-[var(--bg-body)] p-5 rounded-xl border border-border flex flex-col justify-between h-full hover:border-accent transition cursor-pointer">
-                        <div>
-                            <div class="flex justify-between items-center mb-3">
-                                <span class="text-sm font-medium text-accent">Age 10+</span>
-                                <span class="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded whitespace-nowrap"><i class="fas fa-user-friends mr-1"></i> 2 Players</span>
-                            </div>
-                            <h4 class="font-medium text-lg mb-2">Patchwork</h4>
-                            <p class="text-sm text-secondary">A beautiful, abstract puzzle game where players compete to build the most aesthetic (and high-scoring) patchwork quilt.</p>
-                        </div>
-                        <div class="mt-5 pt-3 border-t border-border/50 text-sm font-medium flex justify-between items-center">
-                            <span class="text-green-600">In Stock</span>
-                            <span class="text-accent underline">View Details</span>
-                        </div>
-                    </div>
-
-                    <!-- Rec Item 3 -->
-                    <div class="bg-[var(--bg-body)] p-5 rounded-xl border border-border flex flex-col justify-between h-full hover:border-accent transition cursor-pointer">
-                        <div>
-                            <div class="flex justify-between items-center mb-3">
-                                <span class="text-sm font-medium text-accent">Age 14+</span>
-                                <span class="text-xs bg-gray-200 text-gray-700 px-2 py-1 rounded whitespace-nowrap"><i class="fas fa-user-friends mr-1"></i> 1-4 Players</span>
-                            </div>
-                            <h4 class="font-medium text-lg mb-2">Spirit Island</h4>
-                            <p class="text-sm text-secondary">A complex and rewarding cooperative game where you play as nature spirits defending your island from invaders.</p>
-                        </div>
-                        <div class="mt-5 pt-3 border-t border-border/50 text-sm font-medium flex justify-between items-center">
-                            <span class="text-orange-500">Low Stock</span>
-                            <span class="text-accent underline">View Details</span>
-                        </div>
+                    <h4 class="font-bold text-xl text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">7 Wonders Duel</h4>
+                    <p class="text-sm text-gray-600 mb-6">A civilization-building game designed specifically for two players. Fast-paced and deeply tactical.</p>
+                    
+                    <div class="mt-auto pt-4 border-t border-gray-200 text-sm font-medium flex justify-between items-center">
+                        <span class="text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">In Stock</span>
+                        <span class="text-indigo-600 font-semibold group-hover:underline">View Details →</span>
                     </div>
                 </div>
             </div>
-        </section>
 
+            <!-- Rec Item 2: Patchwork -->
+            <div class="group bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 flex flex-col h-full hover:shadow-xl hover:border-indigo-400 transition-all duration-300 cursor-pointer">
+                <div class="relative h-56 bg-white flex items-center justify-center p-6 border-b border-gray-100">
+                    <img src="assets/a2.jpg" alt="Patchwork Board Game Box" class="object-contain h-full group-hover:scale-110 transition-transform duration-500"/>
+                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">Age 8+</div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-xs font-semibold bg-gray-200 text-gray-700 px-2.5 py-1 rounded-md flex items-center">
+                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+                            2 Players
+                        </span>
+                        <div class="flex text-yellow-400 text-sm">★★★★☆</div>
+                    </div>
+                    <h4 class="font-bold text-xl text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">Patchwork</h4>
+                    <p class="text-sm text-gray-600 mb-6">A beautiful, abstract puzzle game where players compete to build the most aesthetic (and high-scoring) patchwork quilt.</p>
+                    
+                    <div class="mt-auto pt-4 border-t border-gray-200 text-sm font-medium flex justify-between items-center">
+                        <span class="text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-md">In Stock</span>
+                        <span class="text-indigo-600 font-semibold group-hover:underline">View Details →</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Rec Item 3: Spirit Island -->
+            <div class="group bg-gray-50 rounded-2xl overflow-hidden border border-gray-200 flex flex-col h-full hover:shadow-xl hover:border-indigo-400 transition-all duration-300 cursor-pointer">
+                <div class="relative h-56 bg-white flex items-center justify-center p-0 border-b border-gray-100 overflow-hidden">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/d6/Game_in_progress%2C_Spirit_Island.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original" alt="Spirit Island Gameplay" class="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"/>
+                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur text-indigo-700 text-xs font-bold px-3 py-1.5 rounded-full shadow-sm">Age 14+</div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-xs font-semibold bg-gray-200 text-gray-700 px-2.5 py-1 rounded-md flex items-center">
+                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+                            1-4 Players
+                        </span>
+                        <div class="flex text-yellow-400 text-sm">★★★★★</div>
+                    </div>
+                    <h4 class="font-bold text-xl text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">Spirit Island</h4>
+                    <p class="text-sm text-gray-600 mb-6">A complex and rewarding cooperative game where you play as nature spirits defending your island from invaders.</p>
+                    
+                    <div class="mt-auto pt-4 border-t border-gray-200 text-sm font-medium flex justify-between items-center">
+                        <span class="text-amber-600 bg-amber-50 px-2.5 py-1 rounded-md">Low Stock</span>
+                        <span class="text-indigo-600 font-semibold group-hover:underline">View Details →</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
         <!-- ========== S4: COMMUNITY GAME NIGHTS (MODIFIED INNER STRUCTURE) ========== -->
         <section id="events" class="py-16 bg-accent/5">
             <div class="max-w-7xl mx-auto px-5">
@@ -711,7 +768,7 @@
                                 <span class="font-medium text-accent text-left sm:text-right text-sm">Sunday, 10:00 AM</span>
                             </div>
                             <div class="mt-6 flex flex-col sm:flex-row gap-3">
-                                <button class="w-full sm:flex-1 border border-accent rounded-full py-2.5 text-accent font-medium text-sm transition hover:bg-accent/5">View Full Calendar</button>
+                                <a href="gamenights.html" class="w-full sm:flex-1 border border-accent rounded-full py-2.5 text-accent font-medium text-sm transition hover:bg-accent/5 flex items-center justify-center">View Full Calendar</a>
                                 <button class="w-full sm:flex-1 btn-primary rounded-full py-2.5 text-white font-medium text-sm transition shadow-sm">My Bookings</button>
                             </div>
                         </div>
@@ -719,73 +776,80 @@
                 </div>
             </div>
         </section>
+<!-- ========== S4: SHOP BY CATEGORY ========== -->
+<section id="categories" class="py-20 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-5">
+        
+        <!-- Section Header -->
+        <div class="text-center mb-12 reveal">
+            <h2 class="text-3xl md:text-5xl font-bold text-gray-900 mb-4">Explore Your <span class="text-indigo-600">Playstyle</span></h2>
+            <div class="w-24 h-1.5 bg-indigo-600 mx-auto rounded-full mb-6"></div>
+            <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                Whether you're looking for a quick laugh with friends or an all-day strategic campaign, we have the perfect category for your table.
+            </p>
+        </div>
 
-        <!-- ========== S5: PRE-ORDER TRACKER (MODIFIED INNER STRUCTURE) ========== -->
-        <section id="tracker" class="py-16">
-            <div class="max-w-7xl mx-auto px-5">
-                <div class="text-center reveal mb-10">
-                    <h2 class="text-3xl md:text-4xl font-medium">Pre-Order <span class="text-accent">Fulfillment</span></h2>
-                    <div class="w-20 h-1 bg-accent mx-auto mt-3 rounded-full"></div>
-                    <p class="text-secondary mt-3 max-w-2xl mx-auto">Track the arrival status of Kickstarter hits and highly anticipated new releases coming to our store.</p>
+        <!-- Categories Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- Category 1: Strategy -->
+            <a href="#" class="group relative h-80 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 reveal">
+                <!-- Background Image -->
+                <img src="assets/qw1.jpg" alt="Strategy Board Games" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" />
+                <!-- Dark Gradient Overlay for Text Readability -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                <!-- Content -->
+                <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                    <div class="bg-indigo-600/90 text-white text-xs font-bold px-3 py-1 rounded-full w-max mb-3 backdrop-blur-sm shadow-sm group-hover:bg-indigo-500 transition-colors">240+ Games</div>
+                    <h3 class="text-2xl font-bold text-white mb-2 group-hover:-translate-y-1 transition-transform">Strategy & Euro</h3>
+                    <p class="text-gray-200 text-sm opacity-0 h-0 group-hover:opacity-100 group-hover:h-auto transition-all duration-300 ease-in-out">Complex economies, worker placement, and deep brain-burners.</p>
                 </div>
-                
-                <div class="bg-card rounded-2xl p-8 border border-border flex flex-col items-center shadow-sm">
-                    <div class="w-full mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4">
-                        <div>
-                            <h4 class="text-lg font-medium">Title: Frosthaven (Second Printing)</h4>
-                            <p class="text-sm text-secondary">Publisher: Cephalofair Games • ETA: Late November</p>
-                        </div>
-                        <div class="inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium whitespace-nowrap">
-                            <i class="fas fa-ship mr-1"></i> In Transit
-                        </div>
-                    </div>
-                    
-                    <!-- Progress Bar Container -->
-                    <div class="w-full overflow-x-auto pb-4 custom-scrollbar">
-                        <div class="relative py-6 min-w-[320px] sm:min-w-[500px] mx-auto z-10">
-                            <!-- Background Line -->
-                            <div class="absolute top-[40px] left-[10%] right-[10%] h-1.5 bg-gray-200 -translate-y-1/2 rounded-full -z-10"></div>
-                            <!-- Active Line -->
-                            <div class="absolute top-[40px] left-[10%] w-[65%] h-1.5 bg-accent -translate-y-1/2 rounded-full -z-10 transition-all duration-1000"></div>
-                            
-                            <!-- Stages -->
-                            <div class="relative z-10 flex justify-between text-center">
-                                <!-- Stage 1 -->
-                                <div class="flex-1 flex flex-col items-center">
-                                    <div class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center mb-2 shadow"><i class="fas fa-check text-xs"></i></div>
-                                    <span class="text-xs font-medium md:text-sm">Announced</span>
-                                </div>
-                                <!-- Stage 2 -->
-                                <div class="flex-1 flex flex-col items-center">
-                                    <div class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center mb-2 shadow"><i class="fas fa-check text-xs"></i></div>
-                                    <span class="text-xs font-medium md:text-sm">Manufacturing</span>
-                                </div>
-                                <!-- Stage 3 -->
-                                <div class="flex-1 flex flex-col items-center">
-                                    <div class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center mb-2 shadow"><i class="fas fa-check text-xs"></i></div>
-                                    <span class="text-xs font-medium md:text-sm">On the Water</span>
-                                </div>
-                                <!-- Stage 4 (Active) -->
-                                <div class="flex-1 flex flex-col items-center">
-                                    <div class="w-8 h-8 rounded-full border-4 border-accent bg-white text-accent flex items-center justify-center mb-2 shadow">
-                                        <div class="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
-                                    </div>
-                                    <span class="text-xs font-bold text-accent md:text-sm">Customs</span>
-                                </div>
-                                <!-- Stage 5 -->
-                                <div class="flex-1 flex flex-col items-center">
-                                    <div class="w-8 h-8 rounded-full bg-gray-200 text-gray-400 flex items-center justify-center mb-2"><i class="fas fa-box-open text-xs"></i></div>
-                                    <span class="text-xs text-secondary md:text-sm">In Store</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <p class="mt-4 text-sm text-secondary text-center">If you pre-ordered through us, you will receive an email as soon as it hits the "In Store" stage.</p>
-                </div>
-            </div>
-        </section>
+            </a>
 
+            <!-- Category 2: Party Games -->
+            <a href="#" class="group relative h-80 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 reveal lg:-translate-y-4">
+                <img src="assets/qw2.jpg" alt="Party Games" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                    <div class="bg-pink-500/90 text-white text-xs font-bold px-3 py-1 rounded-full w-max mb-3 backdrop-blur-sm shadow-sm group-hover:bg-pink-400 transition-colors">185+ Games</div>
+                    <h3 class="text-2xl font-bold text-white mb-2 group-hover:-translate-y-1 transition-transform">Party & Social</h3>
+                    <p class="text-gray-200 text-sm opacity-0 h-0 group-hover:opacity-100 group-hover:h-auto transition-all duration-300 ease-in-out">Hilarious, fast-paced games perfect for larger groups and drinks.</p>
+                </div>
+            </a>
+
+            <!-- Category 3: Family & Kids -->
+            <a href="#" class="group relative h-80 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 reveal">
+                <img src="assets/qw3.jpg" alt="Family Board Games" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                    <div class="bg-emerald-500/90 text-white text-xs font-bold px-3 py-1 rounded-full w-max mb-3 backdrop-blur-sm shadow-sm group-hover:bg-emerald-400 transition-colors">310+ Games</div>
+                    <h3 class="text-2xl font-bold text-white mb-2 group-hover:-translate-y-1 transition-transform">Family Friendly</h3>
+                    <p class="text-gray-200 text-sm opacity-0 h-0 group-hover:opacity-100 group-hover:h-auto transition-all duration-300 ease-in-out">Approachable rules and endless fun for parents and kids alike.</p>
+                </div>
+            </a>
+
+            <!-- Category 4: RPGs & Miniatures -->
+            <a href="#" class="group relative h-80 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 reveal lg:-translate-y-4">
+                <img src="assets/qw4.jpg" alt="RPGs and Dice" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                    <div class="bg-amber-500/90 text-white text-xs font-bold px-3 py-1 rounded-full w-max mb-3 backdrop-blur-sm shadow-sm group-hover:bg-amber-400 transition-colors">150+ Items</div>
+                    <h3 class="text-2xl font-bold text-white mb-2 group-hover:-translate-y-1 transition-transform">RPGs & Minis</h3>
+                    <p class="text-gray-200 text-sm opacity-0 h-0 group-hover:opacity-100 group-hover:h-auto transition-all duration-300 ease-in-out">D&D rulebooks, polyhedral dice, and paints for your miniatures.</p>
+                </div>
+            </a>
+
+        </div>
+        
+        <!-- View All Button -->
+        <div class="mt-12 text-center">
+            <button class="inline-flex items-center gap-2 px-8 py-3 bg-white border-2 border-gray-200 text-gray-800 font-bold rounded-xl hover:border-indigo-600 hover:text-indigo-600 transition-colors shadow-sm">
+                Browse All Categories
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+            </button>
+        </div>
+    </div>
+</section>
         <!-- ========== S6: CONTACT & ENQUIRIES ========== -->
         <section id="contact" class="py-16 bg-[var(--hover-bg)]/40">
             <div class="max-w-5xl mx-auto text-center reveal px-5">

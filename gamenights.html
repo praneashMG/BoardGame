@@ -58,6 +58,14 @@
             background-color: var(--accent);
         }
 
+        .hover\:bg-accent:hover {
+            background-color: var(--accent) !important;
+        }
+
+        .group:hover .group-hover\:bg-accent {
+            background-color: var(--accent) !important;
+        }
+
         .border-accent {
             border-color: var(--accent);
         }
@@ -446,10 +454,21 @@
             </div>
             <div class="hidden xl:flex items-center gap-4">
                 <a href="login.html" class="btn-outline px-5 py-2 text-sm font-medium"><i class="fas fa-sign-in-alt mr-1"></i> Login</a>
-                <a href="signup.html" class="btn-primary px-5 py-2 text-sm font-medium"><i class="fas fa-user-plus mr-1"></i> Signup</a>
-                <button id="theme-toggle" class="p-2 rounded-full hover:bg-accent/10"><i
-                        class="fas fa-moon light-icon"></i><i class="fas fa-sun dark-icon hidden"></i></button>
-                <button id="lang-icon" class="p-2 rounded-full hover:bg-accent/10"><i class="fas fa-exchange-alt"></i></button>
+                <div class="dropdown-wrapper">
+                    <button class="dropdown-toggle p-2 rounded-full hover:bg-accent/10 transition-colors" aria-label="Settings">
+                        <i class="fas fa-cog text-secondary"></i>
+                    </button>
+                    <div class="dropdown-menu" style="left: auto; right: 0; min-width: 160px;">
+                        <button id="theme-toggle" class="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent/10 transition-colors text-sm text-secondary rounded-md text-left">
+                            <i class="fas fa-moon light-icon w-4 text-center"></i><i class="fas fa-sun dark-icon hidden w-4 text-center"></i>
+                            <span class="light-icon">Dark Mode</span><span class="dark-icon hidden">Light Mode</span>
+                        </button>
+                        <button id="lang-icon" class="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent/10 transition-colors text-sm text-secondary rounded-md text-left mt-1">
+                            <i class="fas fa-exchange-alt w-4 text-center"></i>
+                            <span>Switch RTL</span>
+                        </button>
+                    </div>
+                </div>
             </div>
             <div class="xl:hidden flex items-center gap-3">
                 <button id="mobile-menu-open"><i class="fas fa-bars text-2xl"></i></button>
@@ -482,8 +501,6 @@
                     <a href="login.html"
                         class="flex-1 text-center border border-accent rounded-full py-2 text-accent"><i
                             class="fas fa-key mr-1"></i> Login</a>
-                    <a href="signup.html" class="flex-1 text-center bg-accent rounded-full py-2 text-white"><i
-                            class="fas fa-user-plus mr-1"></i> Signup</a>
                 </div>
                 <div class="flex justify-around mt-6 pt-2"><button id="mobile-theme-btn" class="p-2"><i
                             class="fas fa-moon"></i> Theme</button><button id="mobile-rtl-btn" class="p-2"><i

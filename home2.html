@@ -58,6 +58,14 @@
             background-color: var(--accent);
         }
 
+        .hover\:bg-accent:hover {
+            background-color: var(--accent) !important;
+        }
+
+        .group:hover .group-hover\:bg-accent {
+            background-color: var(--accent) !important;
+        }
+
         .border-accent {
             border-color: var(--accent);
         }
@@ -449,10 +457,21 @@
             </div>
             <div class="hidden xl:flex items-center gap-4">
                 <a href="login.html" class="btn-outline px-5 py-2 text-sm font-medium"><i class="fas fa-sign-in-alt mr-1"></i> Login</a>
-                <a href="signup.html" class="btn-primary px-5 py-2 text-sm font-medium"><i class="fas fa-user-plus mr-1"></i> Signup</a>
-                <button id="theme-toggle" class="p-2 rounded-full hover:bg-accent/10"><i
-                        class="fas fa-moon light-icon"></i><i class="fas fa-sun dark-icon hidden"></i></button>
-                <button id="lang-icon" class="p-2 rounded-full hover:bg-accent/10"><i class="fas fa-exchange-alt"></i></button>
+                <div class="dropdown-wrapper">
+                    <button class="dropdown-toggle p-2 rounded-full hover:bg-accent/10 transition-colors" aria-label="Settings">
+                        <i class="fas fa-cog text-secondary"></i>
+                    </button>
+                    <div class="dropdown-menu" style="left: auto; right: 0; min-width: 160px;">
+                        <button id="theme-toggle" class="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent/10 transition-colors text-sm text-secondary rounded-md text-left">
+                            <i class="fas fa-moon light-icon w-4 text-center"></i><i class="fas fa-sun dark-icon hidden w-4 text-center"></i>
+                            <span class="light-icon">Dark Mode</span><span class="dark-icon hidden">Light Mode</span>
+                        </button>
+                        <button id="lang-icon" class="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent/10 transition-colors text-sm text-secondary rounded-md text-left mt-1">
+                            <i class="fas fa-exchange-alt w-4 text-center"></i>
+                            <span>Switch RTL</span>
+                        </button>
+                    </div>
+                </div>
             </div>
             <div class="xl:hidden flex items-center gap-3">
                 <button id="mobile-menu-open"><i class="fas fa-bars text-2xl"></i></button>
@@ -485,8 +504,6 @@
                     <a href="user.html"
                         class="flex-1 text-center border border-accent rounded-full py-2 text-accent"><i
                             class="fas fa-key mr-1"></i> Login</a>
-                    <a href="user.html" class="flex-1 text-center bg-accent rounded-full py-2 text-white"><i
-                            class="fas fa-user-plus mr-1"></i> Signup</a>
                 </div>
                 <div class="flex justify-around mt-6 pt-2"><button id="mobile-theme-btn" class="p-2"><i
                             class="fas fa-moon"></i> Theme</button><button id="mobile-rtl-btn" class="p-2"><i
@@ -602,49 +619,82 @@
             </div>
         </section>
 
-        <!-- ========== S3: STAFF PICKS / REVIEWS ========== -->
-        <section id="staff-picks" class="py-16">
+        <!-- ========== S3: NEW ARRIVALS ========== -->
+        <section id="new-arrivals" class="py-16">
             <div class="max-w-7xl mx-auto px-5">
                 <div class="text-center reveal mb-12">
-                    <h2 class="text-3xl md:text-4xl font-medium">Curated <span class="text-accent">Staff Picks</span></h2>
+                    <h2 class="text-3xl md:text-4xl font-medium">New <span class="text-accent">Arrivals</span></h2>
                     <div class="w-20 h-1 bg-accent mx-auto mt-3 rounded-full"></div>
-                    <p class="text-secondary mt-3 max-w-2xl mx-auto">Hear what our resident game gurus are playing and why they love it.</p>
+                    <p class="text-secondary mt-3 max-w-2xl mx-auto">Check out the latest releases and freshest additions to our store.</p>
                 </div>
                 
-                <div class="grid md:grid-cols-2 gap-8">
-                    <!-- Staff Pick 1 -->
-                    <div class="bg-[var(--bg-body)] rounded-2xl border border-border p-5 lg:p-6 flex flex-col sm:flex-row gap-5 lg:gap-6 shadow-sm hover:border-accent transition h-full">
-                        <div class="w-full sm:w-28 flex flex-col items-center text-center shrink-0">
-                            <img src="assets/b11.jpg" class="w-20 h-20 rounded-full object-cover border-2 border-accent mb-3" alt="Staff Dave">
-                            <h4 class="font-medium">Dave M.</h4>
-                            <span class="text-xs text-secondary">Strategy Expert</span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Product 1 -->
+                    <div class="bg-card border border-border rounded-xl p-4 flex flex-col group hover:shadow-lg transition-all relative">
+                        <!-- New Badge -->
+                        <div class="absolute top-6 left-6 bg-accent text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow-sm">NEW</div>
+                        <div class="h-48 overflow-hidden rounded-lg mb-4 relative">
+                            <img src="assets/y1.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Latest Board Game 1">
                         </div>
-                        <div class="flex-1 min-w-0 flex flex-col h-full">
-                            <div class="flex justify-between items-start mb-2 gap-2 flex-wrap">
-                                <h3 class="text-xl font-medium text-accent">Scythe</h3>
-                                <div class="text-yellow-400 text-sm shrink-0 whitespace-nowrap"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-                            </div>
-                            <p class="text-sm text-secondary mb-4 italic flex-1">"An absolute masterpiece of engine building and area control. The 1920s alternate history art is stunning, and the gameplay keeps you engaged even when it's not your turn."</p>
-                            <button class="text-accent text-sm font-medium hover:underline text-left mt-auto w-fit">Shop Scythe <i class="fas fa-arrow-right ml-1"></i></button>
+                        <h3 class="font-medium text-lg mb-1">Stellar Horizons</h3>
+                        <p class="text-sm text-secondary mb-3 flex-1">Space Exploration Strategy</p>
+                        <div class="flex justify-between items-center mt-auto">
+                            <span class="font-bold text-accent text-xl">$54.99</span>
+                            <button class="bg-accent/10 text-accent hover:bg-accent hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition"><i class="fas fa-plus"></i></button>
                         </div>
                     </div>
+                    
+                    <!-- Product 2 -->
+                    <div class="bg-card border border-border rounded-xl p-4 flex flex-col group hover:shadow-lg transition-all relative">
+                        <!-- New Badge -->
+                        <div class="absolute top-6 left-6 bg-accent text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow-sm">NEW</div>
+                        <div class="h-48 overflow-hidden rounded-lg mb-4 relative">
+                            <img src="assets/y2.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Latest Board Game 2">
+                        </div>
+                        <h3 class="font-medium text-lg mb-1">Mystic Runes</h3>
+                        <p class="text-sm text-secondary mb-3 flex-1">Cooperative Deckbuilder</p>
+                        <div class="flex justify-between items-center mt-auto">
+                            <span class="font-bold text-accent text-xl">$45.00</span>
+                            <button class="bg-accent/10 text-accent hover:bg-accent hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 3 -->
+                    <div class="bg-card border border-border rounded-xl p-4 flex flex-col group hover:shadow-lg transition-all relative">
+                        <!-- New Badge -->
+                        <div class="absolute top-6 left-6 bg-accent text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow-sm">NEW</div>
+                        <div class="h-48 overflow-hidden rounded-lg mb-4 relative">
+                            <img src="assets/y3.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Latest Board Game 3">
+                        </div>
+                        <h3 class="font-medium text-lg mb-1">Empires of Dust</h3>
+                        <p class="text-sm text-secondary mb-3 flex-1">Area Control & Resource</p>
+                        <div class="flex justify-between items-center mt-auto">
+                            <span class="font-bold text-accent text-xl">$69.95</span>
+                            <button class="bg-accent/10 text-accent hover:bg-accent hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                    
+                    <!-- Product 4 -->
+                    <div class="bg-card border border-border rounded-xl p-4 flex flex-col group hover:shadow-lg transition-all relative">
+                        <!-- New Badge -->
+                        <div class="absolute top-6 left-6 bg-accent text-white text-xs font-bold px-3 py-1 rounded-full z-10 shadow-sm">NEW</div>
+                        <div class="h-48 overflow-hidden rounded-lg mb-4 relative">
+                            <img src="assets/y4.jpg" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Latest Board Game 4">
+                        </div>
+                        <h3 class="font-medium text-lg mb-1">Gnome Tavern</h3>
+                        <p class="text-sm text-secondary mb-3 flex-1">Party Game & Bluffing</p>
+                        <div class="flex justify-between items-center mt-auto">
+                            <span class="font-bold text-accent text-xl">$29.99</span>
+                            <button class="bg-accent/10 text-accent hover:bg-accent hover:text-white px-3 py-2 rounded-lg text-sm font-medium transition"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
 
-                    <!-- Staff Pick 2 -->
-                    <div class="bg-[var(--bg-body)] rounded-2xl border border-border p-5 lg:p-6 flex flex-col sm:flex-row gap-5 lg:gap-6 shadow-sm hover:border-accent transition h-full">
-                        <div class="w-full sm:w-28 flex flex-col items-center text-center shrink-0">
-                            <img src="assets/b12.jpg" class="w-20 h-20 rounded-full object-cover border-2 border-accent mb-3" alt="Staff Sarah">
-                            <h4 class="font-medium">Sarah T.</h4>
-                            <span class="text-xs text-secondary">RPG & Party Games</span>
-                        </div>
-                        <div class="flex-1 min-w-0 flex flex-col h-full">
-                            <div class="flex justify-between items-start mb-2 gap-2 flex-wrap">
-                                <h3 class="text-xl font-medium text-accent">Blood on the Clocktower</h3>
-                                <div class="text-yellow-400 text-sm shrink-0 whitespace-nowrap"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i></div>
-                            </div>
-                            <p class="text-sm text-secondary mb-4 italic flex-1">"The ultimate social deduction game. It fixes every issue with Werewolf—even if you die early, you still play and vote! I run a session every Thursday night here."</p>
-                            <button class="text-accent text-sm font-medium hover:underline text-left mt-auto w-fit">Book a Session <i class="fas fa-arrow-right ml-1"></i></button>
-                        </div>
-                    </div>
+                <div class="mt-12 text-center">
+                    <a href="newarivals.html" class="inline-flex items-center gap-2 px-8 py-3 bg-[var(--bg-body)] border-2 border-border text-[var(--text-primary)] font-bold rounded-xl hover:border-accent hover:text-accent transition-colors shadow-sm">
+                        Explore New Games
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
                 </div>
             </div>
         </section>
@@ -680,39 +730,55 @@
             </div>
         </section>
 
-        <!-- ========== S5: TRADE-IN & RESELL PROGRAM ========== -->
-        <section id="trade-in" class="py-16 bg-[var(--hover-bg)]/40">
+        <!-- ========== S5: FEATURED COLLECTIONS ========== -->
+        <section id="featured-collections" class="py-16 bg-[var(--hover-bg)]/40">
             <div class="max-w-7xl mx-auto px-5">
                 <div class="text-center reveal mb-12">
-                    <h2 class="text-3xl md:text-4xl font-medium">Game <span class="text-accent">Trade-In</span> Program</h2>
+                    <h2 class="text-3xl md:text-4xl font-medium">Game Night <span class="text-accent">Inspiration</span></h2>
                     <div class="w-20 h-1 bg-accent mx-auto mt-3 rounded-full"></div>
-                    <p class="text-secondary mt-3 max-w-2xl mx-auto">Clear out your shelf of shame! Trade in your gently used board games for store credit or cash.</p>
+                    <p class="text-secondary mt-3 max-w-2xl mx-auto">Featured Collections to give you ideas for what to buy and make your next game night engaging.</p>
                 </div>
                 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 relative">
-                    <!-- Connecting line (desktop) -->
-                    <div class="hidden lg:block absolute top-1/2 left-[15%] right-[15%] h-0.5 bg-border -translate-y-1/2 z-0"></div>
-                    
-                    <!-- Step 1 -->
-                    <div class="bg-card border border-border p-6 lg:p-8 rounded-2xl text-center relative z-10 shadow-sm hover:shadow-md transition">
-                        <div class="w-16 h-16 bg-accent/10 text-accent rounded-full flex items-center justify-center text-2xl mx-auto mb-4">1</div>
-                        <h3 class="text-xl font-medium mb-2">Bring It In</h3>
-                        <p class="text-sm text-secondary">Bring your complete, gently used games to our front counter anytime during store hours.</p>
-                    </div>
-                    
-                    <!-- Step 2 -->
-                    <div class="bg-card border border-border p-6 lg:p-8 rounded-2xl text-center relative z-10 shadow-sm hover:shadow-md transition">
-                        <div class="w-16 h-16 bg-accent/10 text-accent rounded-full flex items-center justify-center text-2xl mx-auto mb-4">2</div>
-                        <h3 class="text-xl font-medium mb-2">Get Appraised</h3>
-                        <p class="text-sm text-secondary">Our staff will quickly check the components and condition to offer you a fair market value.</p>
-                    </div>
-                    
-                    <!-- Step 3 -->
-                    <div class="bg-card border border-border p-6 lg:p-8 rounded-2xl text-center relative z-10 shadow-sm hover:shadow-md transition">
-                        <div class="w-16 h-16 bg-accent text-white rounded-full flex items-center justify-center text-2xl mx-auto mb-4"><i class="fas fa-coins"></i></div>
-                        <h3 class="text-xl font-medium mb-2">Get Paid</h3>
-                        <p class="text-sm text-secondary">Choose between instant cash payout or get 30% MORE value if you choose Store Credit!</p>
-                    </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Collection 1: 2 Players -->
+                    <a href="products.html" class="group relative h-80 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 reveal">
+                        <img src="assets/e1.jpg" alt="Games for 2 Players" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                        <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:-translate-y-1 transition-transform">Games for 2 Players</h3>
+                            <p class="text-gray-200 text-sm opacity-0 h-0 group-hover:opacity-100 group-hover:h-auto transition-all duration-300 ease-in-out">Head-to-head duels and cooperative experiences for couples and friends.</p>
+                        </div>
+                    </a>
+
+                    <!-- Collection 2: Family Game Night -->
+                    <a href="products.html" class="group relative h-80 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 reveal lg:-translate-y-4">
+                        <img src="assets/e2.jpg" alt="Family Game Night" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                        <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:-translate-y-1 transition-transform">Family Game Night</h3>
+                            <p class="text-gray-200 text-sm opacity-0 h-0 group-hover:opacity-100 group-hover:h-auto transition-all duration-300 ease-in-out">Approachable rules and endless fun for parents and kids alike.</p>
+                        </div>
+                    </a>
+
+                    <!-- Collection 3: Strategy Essentials -->
+                    <a href="products.html" class="group relative h-80 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 reveal">
+                        <img src="assets/e3.jpg" alt="Strategy Essentials" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                        <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:-translate-y-1 transition-transform">Strategy Essentials</h3>
+                            <p class="text-gray-200 text-sm opacity-0 h-0 group-hover:opacity-100 group-hover:h-auto transition-all duration-300 ease-in-out">Complex economies, worker placement, and deep brain-burners.</p>
+                        </div>
+                    </a>
+
+                    <!-- Collection 4: Party Night Favorites -->
+                    <a href="products.html" class="group relative h-80 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 reveal lg:-translate-y-4">
+                        <img src="assets/e4.jpg" alt="Party Night Favorites" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                        <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:-translate-y-1 transition-transform">Party Night Favorites</h3>
+                            <p class="text-gray-200 text-sm opacity-0 h-0 group-hover:opacity-100 group-hover:h-auto transition-all duration-300 ease-in-out">Hilarious, fast-paced games perfect for larger groups and drinks.</p>
+                        </div>
+                    </a>
                 </div>
             </div>
         </section>
