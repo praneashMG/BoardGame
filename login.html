@@ -18,6 +18,10 @@
             --border-light: #E2E8F0;
             --input-bg: #FFFFFF;
         }
+        html[data-theme='dark'] input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1) brightness(100%);
+        }
+
         html[data-theme='dark'] {
             --bg-body: #0B1120;
             --text-primary: #F1F5F9;

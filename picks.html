@@ -27,6 +27,10 @@
             --rating-star: #F59E0B;
         }
 
+        html[data-theme='dark'] input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1) brightness(100%);
+        }
+
         html[data-theme='dark'] {
             --bg-body: #0B1120;
             --text-primary: #F1F5F9;
@@ -453,22 +457,14 @@
                   <a href="contact.html" class="nav-link">Contact</a>
             </div>
             <div class="hidden xl:flex items-center gap-4">
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-accent/10 transition-colors" aria-label="Toggle Theme">
+                    <i class="fas fa-moon light-icon text-secondary"></i>
+                    <i class="fas fa-sun dark-icon hidden text-secondary"></i>
+                </button>
+                <button id="lang-icon" class="p-2 rounded-full hover:bg-accent/10 transition-colors" aria-label="Toggle RTL">
+                    <i class="fas fa-exchange-alt text-secondary"></i>
+                </button>
                 <a href="login.html" class="btn-outline px-5 py-2 text-sm font-medium"><i class="fas fa-sign-in-alt mr-1"></i> Login</a>
-                <div class="dropdown-wrapper">
-                    <button class="dropdown-toggle p-2 rounded-full hover:bg-accent/10 transition-colors" aria-label="Settings">
-                        <i class="fas fa-cog text-secondary"></i>
-                    </button>
-                    <div class="dropdown-menu" style="left: auto; right: 0; min-width: 160px;">
-                        <button id="theme-toggle" class="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent/10 transition-colors text-sm text-secondary rounded-md text-left">
-                            <i class="fas fa-moon light-icon w-4 text-center"></i><i class="fas fa-sun dark-icon hidden w-4 text-center"></i>
-                            <span class="light-icon">Dark Mode</span><span class="dark-icon hidden">Light Mode</span>
-                        </button>
-                        <button id="lang-icon" class="w-full flex items-center gap-3 px-4 py-2 hover:bg-accent/10 transition-colors text-sm text-secondary rounded-md text-left mt-1">
-                            <i class="fas fa-exchange-alt w-4 text-center"></i>
-                            <span>Switch RTL</span>
-                        </button>
-                    </div>
-                </div>
             </div>
             <div class="xl:hidden flex items-center gap-3">
                 <button id="mobile-menu-open"><i class="fas fa-bars text-2xl"></i></button>
@@ -654,11 +650,9 @@
         <!-- ========== S4: CURATED COLLECTIONS ========== -->
         <section id="collections" class="py-16 bg-[var(--hover-bg)]/30 border-y border-border">
             <div class="max-w-7xl mx-auto px-5 reveal">
-                <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
-                    <div>
-                        <h2 class="text-3xl font-medium">Thematic <span class="text-accent">Collections</span></h2>
-                        <p class="text-secondary mt-2">Lists crafted for specific moods, groups, and gaming environments.</p>
-                    </div>
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-medium">Thematic <span class="text-accent">Collections</span></h2>
+                    <p class="text-secondary mt-2">Lists crafted for specific moods, groups, and gaming environments.</p>
                 </div>
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
